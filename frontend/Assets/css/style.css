@@ -1,0 +1,22 @@
+body{
+    background-color: firebrick;
+}
+
+p{
+    /* color: white; */
+    color: white;
+}
+
+.page-title{
+    color: blue;
+}
+
+.link-custom{
+    color: chocolate;
+}
+
+.btn-save{
+    background-color: green;
+    color: white;
+}
+
