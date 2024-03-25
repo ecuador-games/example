@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Permissions;
 using System.Threading.RateLimiting;
 using System.Threading.Tasks;
+using example.API.Interfaces;
 using example.API.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -15,51 +18,18 @@ namespace example.API.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
-        private readonly string _connectionString;
-        public UserController(IConfiguration configuration)
+        private readonly IUserService _userService;
+        public UserController(IUserService userService)
         {
-            _configuration = configuration;
-            _connectionString = _configuration.GetConnectionString("DefaultConnection");
+            this._userService = userService;
         }
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var usuarios = new List<User>();
+            
             try
             {
-                using (var conn = new NpgsqlConnection(_connectionString))
-                {
-                    string query = @"select * from usuario order by user_id desc";
-                    conn.Open();
-                    var cmd = new NpgsqlCommand(query, conn);
-                    cmd.CommandType = System.Data.CommandType.Text;
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            var user = new User();
-                            user.Id = Convert.ToInt32(reader["user_id"]);
-                            user.Address = reader["address"].ToString();
-                            user.Email = reader["email"].ToString();
-                            user.FirstName = reader["first_name"].ToString();
-                            user.LastName = reader["last_name"].ToString();
-                            user.Telephone = reader["telephone"].ToString();
-                            usuarios.Add(user);
-                        }
-                        
-                    }
-                }
-                var response = new ApiResponse();
-                if (usuarios.Count > 0)
-                {
-                    response.Code = "1";
-                    response.Payload = usuarios;
-                }
-                else {
-                    response.Code = "0";
-                    response.Message = "No existen usuarios registrados";
-                }
+                var response = await _userService.GetAsync();
                 return Ok(response);
             }
             catch (System.Exception ex)
@@ -70,49 +40,12 @@ namespace example.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var user = new User();
+            
             try
             {
-                using (var conn = new NpgsqlConnection(_connectionString))
-                {
-                    string query = @"SELECT user_id
-                    ,address
-                    ,email
-                    ,first_name
-                    ,last_name
-                    ,telephone
-                    FROM usuario WHERE user_id = @id";
-                    var cmd = new NpgsqlCommand(query, conn);
-                    cmd.CommandType = System.Data.CommandType.Text;
-                    cmd.Parameters.AddWithValue("@id", id);
-                    conn.Open();
-                    using (var reader = cmd.ExecuteReader())
-                    { 
-                        while (reader.Read())
-                        {
-                            user.Id = Convert.ToInt32(reader["user_id"]);
-                            user.Address = reader["address"].ToString();
-                            user.Email = reader["email"].ToString();
-                            user.FirstName = reader["First_name"].ToString();
-                            user.LastName = reader["last_name"].ToString();
-                            user.Telephone = reader["telephone"].ToString();
-                        }
-
-                    }
-                }
-                var response = new ApiResponse();
-                if (user == null)
-                {
-                    response.Code = "0";
-                    response.Message = "No existe un usuario registrado con este id";
-                }
-                else
-                {
-                    response.Code = "1";
-                    response.Payload = user;
-                }
+                var response = await _userService.GetByIdAsync(id);
                 return Ok(response);
             }
             catch (System.Exception ex)
@@ -121,53 +54,12 @@ namespace example.API.Controllers
             }
         }
         [HttpGet("search")]
-        public IActionResult Search(string textSearch)
+        public async Task<IActionResult> Search(string textSearch)
         {
-            var usuarios = new List<User>();
+            
             try
             {
-                using (var conn = new NpgsqlConnection(_connectionString))
-                {
-                    string query = @"SELECT user_id
-                                    ,address
-                                    ,email
-                                    ,first_name
-                                    ,last_name
-                                    ,telephone
-                                    
-                                FROM usuario
-                                WHERE first_name ILIKE @text_search
-                                    OR last_name ILIKE @text_search";
-                    var cmd = new NpgsqlCommand(query, conn);
-                    cmd.CommandType = System.Data.CommandType.Text;
-                    cmd.Parameters.AddWithValue("@text_search", $"%{textSearch}%");
-                    conn.Open();
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            var user = new User();
-                            user.Id = Convert.ToInt32(reader["user_id"]);
-                            user.Address = reader["address"].ToString();
-                            user.Email = reader["email"].ToString();
-                            user.FirstName = reader["first_name"].ToString();
-                            user.LastName = reader["last_name"].ToString();
-                            user.Telephone = reader["telephone"].ToString();
-                            usuarios.Add(user);
-                        }
-                        }
-                    }
-                    var response = new ApiResponse();
-                    if (usuarios.Count > 0)
-                    {
-                        response.Code = "1";
-                        response.Payload = usuarios;
-                    }
-                    else
-                    {
-                        response.Code = "0";
-                        response.Message = "No se encontraron usuarios con estos parametros de bsuqueda";
-                    }
+                var response = await _userService.SearchAsync(textSearch);
                     return Ok(response);
                 
 
@@ -178,29 +70,11 @@ namespace example.API.Controllers
             }
         }
         [HttpPost]
-        public IActionResult Post([FromBody] User user)
+        public async Task<IActionResult> Post([FromBody] User user)
         {
             try
             {
-                using (var conn = new NpgsqlConnection(_connectionString))
-                {
-                    string query = @"INSERT INTO usuario(address, email, first_name, last_name, password, telephone)
-                            VALUES(@address, @email, @first_name, @last_name, @password, @telephone)";
-                    conn.Open();
-                    var cmd = new NpgsqlCommand(query, conn);
-                    cmd.CommandType = System.Data.CommandType.Text;
-                    cmd.Parameters.AddWithValue("@address", user.Address ?? "");
-                    cmd.Parameters.AddWithValue("@email", user.Email);
-                    cmd.Parameters.AddWithValue("@first_name", user.FirstName);
-                    cmd.Parameters.AddWithValue("@last_name", user.LastName);
-                    cmd.Parameters.AddWithValue("@password", user.Password);
-                    cmd.Parameters.AddWithValue("@telephone", user.Telephone ?? "");
-                    cmd.ExecuteNonQuery();
-                }
-                var response = new ApiResponse{
-                    Code = "1",
-                    Message = "Insertado correctamente"
-                };
+                var response = await _userService.AddAsync(user);
                 return Ok(response);
             }
             catch (System.Exception ex)
@@ -209,33 +83,10 @@ namespace example.API.Controllers
             }
         }
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] User user){
+        public async Task<IActionResult> Put(int id, [FromBody] User user){
             try
             {
-                using(var conn = new NpgsqlConnection(_connectionString)){
-                    string query = @"UPDATE usuario SET address = @address
-                                ,first_name = @first_name
-                                ,last_name = @last_name
-                                ,email = @email
-                                ,telephone = telephone
-                                WHERE user_id = @id";
-                                
-                var cmd = new NpgsqlCommand(query, conn);
-                cmd.CommandType = System.Data.CommandType.Text;
-                cmd.Parameters.AddWithValue("@id", user.Id);
-                cmd.Parameters.AddWithValue("@address", user.Address ?? "");
-                cmd.Parameters.AddWithValue("@first_name", user.FirstName ?? "");
-                cmd.Parameters.AddWithValue("@last_name", user.LastName ?? "");
-                cmd.Parameters.AddWithValue("@email", user.Email ?? "");
-                cmd.Parameters.AddWithValue("@telephone", user.Telephone ?? "");
-                conn.Open();
-                cmd.ExecuteNonQuery();
-                }
-                var response = new ApiResponse
-                {
-                    Code = "1",
-                    Message = "Actualizado Exitosamente"
-                };
+                var response = await _userService.UpdateAsync(id, user);
                 return Ok(response);
             }
             catch (System.Exception ex)
@@ -245,24 +96,11 @@ namespace example.API.Controllers
             }
         }
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                using (var conn = new NpgsqlConnection(_connectionString))
-                {
-                    string query = @"DELETE FROM usuario WHERE user_id = @id";
-                    var cmd = new NpgsqlCommand(query, conn);
-                    cmd.CommandType = System.Data.CommandType.Text;
-                    cmd.Parameters.AddWithValue("@id", id);
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                }
-                var response = new ApiResponse
-                {
-                    Code = "1",
-                    Message = "Eliminado Exitosamente"
-                };
+                var response = await _userService.DeleteAsync(id);
                 return Ok(response);
             }
             catch (System.Exception ex)
