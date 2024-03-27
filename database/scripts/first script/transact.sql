@@ -2,7 +2,7 @@
 --CRUD - (CREATE, READ, UPDATE, DELETE)
 --INSERT - (CREATE)
 /*
-INSERT INTO usuario(address, email, first_name, last_name, password, telephone)
+INSERT INTO usuario(Addresss, Email, FirstName, LastName, password, Telephone)
 VALUES('Santo Domingo', 'samy.capitanteddy@gmail.com', 'Samuel', 'Martínesz', '12345', '0963407013')
 */
 
@@ -11,8 +11,8 @@ VALUES('Santo Domingo', 'samy.capitanteddy@gmail.com', 'Samuel', 'Martínesz', '
 
 --UPDATE -> (UPDATE)
 /*
-UPDATE usuario SET address = 'Santo Domingo',
-telephone = '05677890854'
+UPDATE usuario SET Address = 'Santo Domingo',
+Telephone = '05677890854'
 WHERE user_id = 15
 */
 
@@ -25,20 +25,20 @@ WHERE user_id = 15
 SELECT * FROM usuario WHERE user_id = 16
 
 SELECT user_id
-	,addres
-	,email
-	,first_name
-	,last_name
-	,telephone
+	,Address
+	,Email
+	,FirstName
+	,LastName
+	,Telephone
 
-SELECT * FROM usuario WHERE address = 'Manabi'
+SELECT * FROM usuario WHERE Address = 'Manabi'
 
-SELECT * FROM usuario WHERE first_name LIKE '%s%'
+SELECT * FROM usuario WHERE FirstName LIKE '%s%'
 
 SELECT *
 FROM usuario
-WHERE first_name LIKE '%e%'
-OR last_name LIKE '%e%'
+WHERE FirstName LIKE '%e%'
+OR LastName LIKE '%e%'
 
 SELECT * FROM usuario WHERE user_id  IN = (4,5)
 

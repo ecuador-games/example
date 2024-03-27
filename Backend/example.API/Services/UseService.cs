@@ -1,6 +1,6 @@
 using example.API.Interfaces;
 using example.API.Models;
-using Npgsql;
+using Microsoft.Data.SqlClient;
 
 namespace example.API.Services
 {
@@ -15,35 +15,36 @@ namespace example.API.Services
         }
         public async Task<ApiResponse> AddAsync(User user)
         {
-            using (var conn = new NpgsqlConnection(_connectionString))
+            var response = new ApiResponse();
+            using (var conn = new SqlConnection(_connectionString))
             {
-                string query = @"INSERT INTO usuario(address, email, first_name, last_name, password, telephone)
-                            VALUES(@address, @email, @first_name, @last_name, @password, @telephone)";
-                var cmd = new NpgsqlCommand(query, conn);
-                cmd.CommandType = System.Data.CommandType.Text;
-                cmd.Parameters.AddWithValue("@address", user.Address ?? "");
-                cmd.Parameters.AddWithValue("@email", user.Email);
-                cmd.Parameters.AddWithValue("@first_name", user.FirstName);
-                cmd.Parameters.AddWithValue("@last_name", user.LastName);
-                cmd.Parameters.AddWithValue("@password", user.Password);
-                cmd.Parameters.AddWithValue("@telephone", user.Telephone ?? "");
+                var cmd = new SqlCommand("dbo.Usuario_Insert", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Address", user.Address ?? "");
+                cmd.Parameters.AddWithValue("@Email", user.Email);
+                cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
+                cmd.Parameters.AddWithValue("@LastName", user.LastName);
+                cmd.Parameters.AddWithValue("@Password", user.Password);
+                cmd.Parameters.AddWithValue("@Telephone", user.Telephone ?? "");
                 await conn.OpenAsync();
-                int rowsAffected = await cmd.ExecuteNonQueryAsync();
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    if (await reader.ReadAsync())
+                    {
+                        response.Code = reader["code"].ToString();
+                        response.Message = reader["message"].ToString();
+                    }
+                }
             }
-            var response = new ApiResponse
-            {
-                Code = "1",
-                Message = "Insertado correctamente"
-            };
             return response;
         }
 
         public async Task<ApiResponse> DeleteAsync(int id)
         {
-            using (var conn = new NpgsqlConnection(_connectionString))
+            using (var conn = new SqlConnection(_connectionString))
             {
-                string query = @"DELETE FROM usuario WHERE user_id = @id";
-                var cmd = new NpgsqlCommand(query, conn);
+                string query = @"DELETE FROM usuario WHERE Id = @id";
+                var cmd = new SqlCommand(query, conn);
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.Parameters.AddWithValue("@id", id);
                 await conn.OpenAsync();
@@ -62,22 +63,21 @@ namespace example.API.Services
             var usuarios = new List<User>();
             try
             {
-                using (var conn = new NpgsqlConnection(_connectionString))
+                using (var conn = new SqlConnection(_connectionString))
                 {
-                    string query = @"select * from usuario order by user_id desc";
-                    var cmd = new NpgsqlCommand(query, conn);
-                    cmd.CommandType = System.Data.CommandType.Text;
+                    var cmd = new SqlCommand("dbo.Usuario_Get", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     await conn.OpenAsync();
                     using (var reader = await cmd.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
                             var user = new User();
-                            user.Id = Convert.ToInt32(reader["user_id"]);
+                            user.Id = Convert.ToInt32(reader["Id"]);
                             user.Address = reader["address"].ToString();
                             user.Email = reader["email"].ToString();
-                            user.FirstName = reader["first_name"].ToString();
-                            user.LastName = reader["last_name"].ToString();
+                            user.FirstName = reader["FirstName"].ToString();
+                            user.LastName = reader["LastName"].ToString();
                             user.Telephone = reader["telephone"].ToString();
                             usuarios.Add(user);
                         }
@@ -110,16 +110,16 @@ namespace example.API.Services
             var user = new User();
             try
             {
-                using (var conn = new NpgsqlConnection(_connectionString))
+                using (var conn = new SqlConnection(_connectionString))
                 {
-                    string query = @"SELECT user_id
+                    string query = @"SELECT Id
                     ,address
                     ,email
-                    ,first_name
-                    ,last_name
+                    ,FirstName
+                    ,LastName
                     ,telephone
-                    FROM usuario WHERE user_id = @id";
-                    var cmd = new NpgsqlCommand(query, conn);
+                    FROM usuario WHERE Id = @id";
+                    var cmd = new SqlCommand(query, conn);
                     cmd.CommandType = System.Data.CommandType.Text;
                     cmd.Parameters.AddWithValue("@id", id);
                     await conn.OpenAsync();
@@ -127,11 +127,11 @@ namespace example.API.Services
                     {
                         while (await reader.ReadAsync())
                         {
-                            user.Id = Convert.ToInt32(reader["user_id"]);
+                            user.Id = Convert.ToInt32(reader["Id"]);
                             user.Address = reader["address"].ToString();
                             user.Email = reader["email"].ToString();
-                            user.FirstName = reader["First_name"].ToString();
-                            user.LastName = reader["last_name"].ToString();
+                            user.FirstName = reader["FirstName"].ToString();
+                            user.LastName = reader["LastName"].ToString();
                             user.Telephone = reader["telephone"].ToString();
                         }
 
@@ -162,19 +162,19 @@ namespace example.API.Services
             var usuarios = new List<User>();
             try
             {
-                using (var conn = new NpgsqlConnection(_connectionString))
+                using (var conn = new SqlConnection(_connectionString))
                 {
-                    string query = @"SELECT user_id
+                    string query = @"SELECT Id
                                     ,address
                                     ,email
-                                    ,first_name
-                                    ,last_name
+                                    ,FirstName
+                                    ,LastName
                                     ,telephone
                                     
                                 FROM usuario
-                                WHERE first_name ILIKE @text_search
-                                    OR last_name ILIKE @text_search";
-                    var cmd = new NpgsqlCommand(query, conn);
+                                WHERE FirstName LIKE @text_search
+                                    OR LastName LIKE @text_search";
+                    var cmd = new SqlCommand(query, conn);
                     cmd.CommandType = System.Data.CommandType.Text;
                     cmd.Parameters.AddWithValue("@text_search", $"%{textSearch}%");
                     await conn.OpenAsync();
@@ -183,11 +183,11 @@ namespace example.API.Services
                         while (await reader.ReadAsync())
                         {
                             var user = new User();
-                            user.Id = Convert.ToInt32(reader["user_id"]);
+                            user.Id = Convert.ToInt32(reader["Id"]);
                             user.Address = reader["address"].ToString();
                             user.Email = reader["email"].ToString();
-                            user.FirstName = reader["first_name"].ToString();
-                            user.LastName = reader["last_name"].ToString();
+                            user.FirstName = reader["FirstName"].ToString();
+                            user.LastName = reader["LastName"].ToString();
                             user.Telephone = reader["telephone"].ToString();
                             usuarios.Add(user);
                         }
@@ -215,21 +215,21 @@ namespace example.API.Services
 
         public async Task<ApiResponse> UpdateAsync(int id, User user)
         {
-            using (var conn = new NpgsqlConnection(_connectionString))
+            using (var conn = new SqlConnection(_connectionString))
             {
                 string query = @"UPDATE usuario SET address = @address
-                                ,first_name = @first_name
-                                ,last_name = @last_name
+                                ,FirstName = @FirstName
+                                ,LastName = @LastName
                                 ,email = @email
-                                ,telephone = telephone
-                                WHERE user_id = @id";
+                                ,telephone = @telephone
+                                WHERE Id = @id";
 
-                var cmd = new NpgsqlCommand(query, conn);
+                var cmd = new SqlCommand(query, conn);
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.Parameters.AddWithValue("@id", user.Id);
                 cmd.Parameters.AddWithValue("@address", user.Address ?? "");
-                cmd.Parameters.AddWithValue("@first_name", user.FirstName ?? "");
-                cmd.Parameters.AddWithValue("@last_name", user.LastName ?? "");
+                cmd.Parameters.AddWithValue("@FirstName", user.FirstName ?? "");
+                cmd.Parameters.AddWithValue("@LastName", user.LastName ?? "");
                 cmd.Parameters.AddWithValue("@email", user.Email ?? "");
                 cmd.Parameters.AddWithValue("@telephone", user.Telephone ?? "");
                 await conn.OpenAsync();

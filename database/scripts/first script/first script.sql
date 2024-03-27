@@ -8,16 +8,18 @@
 
 --DROP TABLE usuario
 
+--USE example
+--go
 
-CREATE TABLE usuario(
-	user_id serial primary key,
-	address varchar (300) null,
-	email varchar (100) not null,
-	first_name varchar (100) not null,
-	last_name varchar (100) not null,
-	password varchar (100) not null,
-	telephone varchar (13) null
-)
+--CREATE TABLE usuario(
+--	Id int not null primary key identity (1, 1),
+--	Address varchar (300) null,
+--	Email varchar (100) not null,
+--	FirstName varchar (100) not null,
+--	LastName varchar (100) not null,
+--	Password varchar (100) not null,
+--	Telephone varchar (13) null
+--)
 
 --COMANDOS PARA VISUALIZAR LA INFORMACION
 SELECT * FROM usuario;

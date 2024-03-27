@@ -1,16 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Permissions;
-using System.Threading.RateLimiting;
-using System.Threading.Tasks;
 using example.API.Interfaces;
 using example.API.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Npgsql;
 
 namespace example.API.Controllers
 {

@@ -185,6 +185,9 @@ function save() {
       return response.json();
     })
     .then((data) => {
+      if (data.code == "0") {
+        toastr.warning(data.message);
+      }
       if (data.code == "1") {
         initial();
         toastr.success(data.message);
