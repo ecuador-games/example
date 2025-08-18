@@ -22,16 +22,16 @@ WHERE user_id = 15
 
 --EJERCICIOS DE LECTURA DE DATOS
 
-SELECT * FROM usuario WHERE user_id = 16
+SELECT * FROM usuario WHERE Id = 16
 
-SELECT user_id
+SELECT Id
 	,Address
 	,Email
 	,FirstName
 	,LastName
 	,Telephone
 
-SELECT * FROM usuario WHERE Address = 'Manabi'
+FROM usuario WHERE Address = 'Manabi'
 
 SELECT * FROM usuario WHERE FirstName LIKE '%s%'
 
@@ -40,6 +40,6 @@ FROM usuario
 WHERE FirstName LIKE '%e%'
 OR LastName LIKE '%e%'
 
-SELECT * FROM usuario WHERE user_id  IN = (4,5)
+SELECT * FROM usuario WHERE Id  IN (4,5)
 
-SELECT * FROM usuario WHERE user_id  NOT IN = (4,5)
+SELECT * FROM usuario WHERE Id  NOT IN (4,5)

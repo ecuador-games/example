@@ -104,22 +104,59 @@ let userid = 0;
 function edit(index) {
   let user = users[index];
   userid = user.id;
-  fetch(`${url_api}/${user.id}`).then((response) => {
-    return response.json();
-  })
-  .then((data) => {
-    if (data.code == "1") {
-      let payload = data.payload;
-      document.getElementById("firstName").value = payload.firstName;
-      document.getElementById("lastName").value = payload.lastName;
-      document.getElementById("email").value = payload.email;
-      document.getElementById("telephone").value = payload.telephone;
-      document.getElementById("address").value = payload.address;
-      document.getElementById("div_pwd").style.display = "none";
-    }
-  });
+  fetch(`${url_api}/${user.id}`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      if (data.code == "1") {
+        let payload = data.payload;
+        document.getElementById("firstName").value = payload.firstName;
+        document.getElementById("lastName").value = payload.lastName;
+        document.getElementById("email").value = payload.email;
+        document.getElementById("telephone").value = payload.telephone;
+        document.getElementById("address").value = payload.address;
+        document.getElementById("div_pwd").style.display = "none";
+      }
+    });
 
   tipo = 2;
+}
+
+function validarContraseña(password) {
+  // Verificar longitud mínima de 8 caracteres
+  const longitudMinima = password.length >= 8;
+
+  // Verificar al menos un número
+  const tieneNumero = /\d/.test(password);
+
+  // Verificar al menos un carácter especial
+  const tieneCaracterEspecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+  // Retornar resultado de validación
+  return {
+    esValida: longitudMinima && tieneNumero && tieneCaracterEspecial,
+    errores: {
+      longitudMinima: !longitudMinima
+        ? "La contraseña debe tener al menos 8 caracteres"
+        : null,
+      tieneNumero: !tieneNumero
+        ? "La contraseña debe tener al menos un número"
+        : null,
+      tieneCaracterEspecial: !tieneCaracterEspecial
+        ? "La contraseña debe tener al menos un carácter especial"
+        : null,
+    },
+  };
+}
+
+// Función alternativa más simple que solo retorna true/false
+function esContraseñaValida(password) {
+  return (
+    password.length >= 8 &&
+    /\d/.test(password) &&
+    /[!@#$%^&*(),.?":{}|<>]/.test(password)
+  );
 }
 
 function save() {
@@ -133,8 +170,32 @@ function save() {
   }
 
   let lastName = document.getElementById("lastName").value;
+  if (lastName.lenght < 2) {
+    alert("Debe de ingresar al menos dos caracteres para el apellido");
+    return;
+  }
   let email = document.getElementById("email").value;
-  let password = tipo == 1 ? document.getElementById("password").value : "";
+  if (email.lenght < 6) {
+    alert("Debe ingresar al menos 6 caracteres en el correo");
+    return;
+  }
+  let password = "";
+
+  if (tipo === 1) {
+    password = document.getElementById("password").value;
+    const passwordValid = validarContraseña(password);
+    if (passwordValid.esValida === false) {
+      if (passwordValid.errores.longitudMinima.length > 0) {
+        alert(passwordValid.errores.longitudMinima);
+      }
+      if (passwordValid.errores.tieneNumero.length > 0) {
+        alert(passwordValid.errores.tieneNumero);
+      }
+      if (passwordValid.errores.tieneCaracterEspecial.length > 0) {
+        alert(passwordValid.errores.tieneCaracterEspecial);
+      }
+    }
+  }
   let address = document.getElementById("address").value;
   let telephone = document.getElementById("telephone").value;
   if (telephone.length < 10) {
@@ -225,32 +286,33 @@ function clearform() {
   document.getElementById("telephone").value = "";
 }
 
-async function askToDelete(index){
+async function askToDelete(index) {
   let user = users[index];
   let { isConfirmed } = await swal.fire({
-    title : 'Advertencia',
-    icon: 'warning',
+    title: "Advertencia",
+    icon: "warning",
     text: `Esta seguro de eliminar este registro del usuario ${user.firstName}?`,
     confirmButtonText: "Si",
     showCancelButton: true,
-    cancelButtonText: 'No',
+    cancelButtonText: "No",
   });
   if (isConfirmed) {
-    fetch(`${url_api}/${user.id}`,{
+    fetch(`${url_api}/${user.id}`, {
       method: "DELETE",
-    }).then((response) => {
-      return response.json();
     })
-    .then((data) => {
-      if (data.code == "1") {
-        initial()
-        //users.splice(index, 1);
-        toastr.success(data.message);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        if (data.code == "1") {
+          initial();
+          //users.splice(index, 1);
+          toastr.success(data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 }
 function search() {
