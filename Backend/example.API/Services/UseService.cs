@@ -25,7 +25,7 @@ namespace example.API.Services
                 cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
                 cmd.Parameters.AddWithValue("@LastName", user.LastName);
                 cmd.Parameters.AddWithValue("@Password", user.Password);
-                cmd.Parameters.AddWithValue("@Telephone", user.Telephone ?? "");
+                cmd.Parameters.AddWithValue("@Telephone", user.PhoneNumber ?? "");
                 await conn.OpenAsync();
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
@@ -78,7 +78,7 @@ namespace example.API.Services
                             user.Email = reader["email"].ToString();
                             user.FirstName = reader["FirstName"].ToString();
                             user.LastName = reader["LastName"].ToString();
-                            user.Telephone = reader["telephone"].ToString();
+                            user.PhoneNumber = reader["telephone"].ToString();
                             usuarios.Add(user);
                         }
 
@@ -132,7 +132,7 @@ namespace example.API.Services
                             user.Email = reader["email"].ToString();
                             user.FirstName = reader["FirstName"].ToString();
                             user.LastName = reader["LastName"].ToString();
-                            user.Telephone = reader["telephone"].ToString();
+                            user.PhoneNumber = reader["telephone"].ToString();
                         }
 
                     }
@@ -188,7 +188,7 @@ namespace example.API.Services
                             user.Email = reader["email"].ToString();
                             user.FirstName = reader["FirstName"].ToString();
                             user.LastName = reader["LastName"].ToString();
-                            user.Telephone = reader["telephone"].ToString();
+                            user.PhoneNumber = reader["telephone"].ToString();
                             usuarios.Add(user);
                         }
                     }
@@ -231,7 +231,7 @@ namespace example.API.Services
                 cmd.Parameters.AddWithValue("@FirstName", user.FirstName ?? "");
                 cmd.Parameters.AddWithValue("@LastName", user.LastName ?? "");
                 cmd.Parameters.AddWithValue("@email", user.Email ?? "");
-                cmd.Parameters.AddWithValue("@telephone", user.Telephone ?? "");
+                cmd.Parameters.AddWithValue("@telephone", user.PhoneNumber ?? "");
                 await conn.OpenAsync();
                 int rowsAffected = await cmd.ExecuteNonQueryAsync();
             }
