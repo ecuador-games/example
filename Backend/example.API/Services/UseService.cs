@@ -1,3 +1,5 @@
+using example.API.DTOs;
+using example.API.DTOs.Results;
 using example.API.Interfaces;
 using example.API.Models;
 using Microsoft.Data.SqlClient;
@@ -15,17 +17,19 @@ namespace example.API.Services
         }
         public async Task<ApiResponse> AddAsync(User user)
         {
-            var response = new ApiResponse();
+            var response = new ApiResponse { Code = string.Empty };
             using (var conn = new SqlConnection(_connectionString))
             {
-                var cmd = new SqlCommand("dbo.Usuario_Insert", conn);
+                var cmd = new SqlCommand("dbo.InsertUsuario", conn);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Address", user.Address ?? "");
                 cmd.Parameters.AddWithValue("@Email", user.Email);
-                cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
-                cmd.Parameters.AddWithValue("@LastName", user.LastName);
-                cmd.Parameters.AddWithValue("@Password", user.Password);
-                cmd.Parameters.AddWithValue("@Telephone", user.PhoneNumber ?? "");
+                cmd.Parameters.AddWithValue("@Username", user.Username);
+                cmd.Parameters.AddWithValue("@FirstName", user.FirstName ?? "");
+                cmd.Parameters.AddWithValue("@LastName", user.LastName ?? "");
+                cmd.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
+                cmd.Parameters.AddWithValue("@PasswordSalt", user.PasswordSalt);
+                cmd.Parameters.AddWithValue("@PhoneNumber", user.PhoneNumber ?? "");
                 await conn.OpenAsync();
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
@@ -52,7 +56,7 @@ namespace example.API.Services
             }
             var response = new ApiResponse
             {
-                Code = "1",
+                Code = "0",
                 Message = "Eliminado Exitosamente"
             };
             return response;
@@ -60,39 +64,42 @@ namespace example.API.Services
 
         public async Task<ApiResponse> GetAsync()
         {
-            var usuarios = new List<User>();
+            var usuarios = new List<UserDto>();
             try
             {
                 using (var conn = new SqlConnection(_connectionString))
                 {
-                    var cmd = new SqlCommand("dbo.Usuario_Get", conn);
+                    var cmd = new SqlCommand("dbo.GetUsuario", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     await conn.OpenAsync();
                     using (var reader = await cmd.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            var user = new User();
-                            user.Id = Convert.ToInt32(reader["Id"]);
-                            user.Address = reader["address"].ToString();
-                            user.Email = reader["email"].ToString();
-                            user.FirstName = reader["FirstName"].ToString();
-                            user.LastName = reader["LastName"].ToString();
-                            user.PhoneNumber = reader["telephone"].ToString();
+                            var user = new UserDto
+                            {
+                                Id = Convert.ToInt32(reader["Id"]),
+                                Address = reader["address"].ToString(),
+                                Email = reader["email"].ToString(),
+                                Username = reader["username"].ToString(),
+                                FirstName = reader["FirstName"].ToString(),
+                                LastName = reader["LastName"].ToString(),
+                                PhoneNumber = reader["phoneNumber"].ToString()
+                            };
                             usuarios.Add(user);
                         }
 
                     }
                 }
-                var response = new ApiResponse();
+                var response = new ApiResponse { Code = string.Empty };
                 if (usuarios.Count > 0)
                 {
-                    response.Code = "1";
-                    response.Payload = usuarios;
+                    response.Code = "0";
+                    response.Data = usuarios;
                 }
                 else
                 {
-                    response.Code = "0";
+                    response.Code = "USERS_NOT_FOUND";
                     response.Message = "No existen usuarios registrados";
                 }
                 return response;
@@ -107,7 +114,11 @@ namespace example.API.Services
         public async Task<ApiResponse> GetByIdAsync(int id)
 
         {
-            var user = new User();
+            var user = new UserDto
+            {
+                Email = string.Empty,
+                Username = string.Empty
+            };
             try
             {
                 using (var conn = new SqlConnection(_connectionString))
@@ -115,9 +126,10 @@ namespace example.API.Services
                     string query = @"SELECT Id
                     ,address
                     ,email
+                    ,username
                     ,FirstName
                     ,LastName
-                    ,telephone
+                    ,phoneNumber
                     FROM usuario WHERE Id = @id";
                     var cmd = new SqlCommand(query, conn);
                     cmd.CommandType = System.Data.CommandType.Text;
@@ -130,14 +142,15 @@ namespace example.API.Services
                             user.Id = Convert.ToInt32(reader["Id"]);
                             user.Address = reader["address"].ToString();
                             user.Email = reader["email"].ToString();
+                            user.Username = reader["username"].ToString();
                             user.FirstName = reader["FirstName"].ToString();
                             user.LastName = reader["LastName"].ToString();
-                            user.PhoneNumber = reader["telephone"].ToString();
+                            user.PhoneNumber = reader["phoneNumber"].ToString();
                         }
 
                     }
                 }
-                var response = new ApiResponse();
+                var response = new ApiResponse { Code = string.Empty };
                 if (user == null)
                 {
                     response.Code = "0";
@@ -146,7 +159,7 @@ namespace example.API.Services
                 else
                 {
                     response.Code = "1";
-                    response.Payload = user;
+                    response.Data = user;
                 }
                 return response;
             }
@@ -159,7 +172,7 @@ namespace example.API.Services
 
         public async Task<ApiResponse> SearchAsync(string textSearch)
         {
-            var usuarios = new List<User>();
+            var usuarios = new List<UserDto>();
             try
             {
                 using (var conn = new SqlConnection(_connectionString))
@@ -167,6 +180,7 @@ namespace example.API.Services
                     string query = @"SELECT Id
                                     ,address
                                     ,email
+                                    ,username
                                     ,FirstName
                                     ,LastName
                                     ,telephone
@@ -182,26 +196,29 @@ namespace example.API.Services
                     {
                         while (await reader.ReadAsync())
                         {
-                            var user = new User();
-                            user.Id = Convert.ToInt32(reader["Id"]);
-                            user.Address = reader["address"].ToString();
-                            user.Email = reader["email"].ToString();
-                            user.FirstName = reader["FirstName"].ToString();
-                            user.LastName = reader["LastName"].ToString();
-                            user.PhoneNumber = reader["telephone"].ToString();
+                            var user = new UserDto
+                            {
+                                Id = Convert.ToInt32(reader["Id"]),
+                                Address = reader["address"].ToString(),
+                                Email = reader["email"].ToString(),
+                                Username = reader["username"].ToString(),
+                                FirstName = reader["FirstName"].ToString(),
+                                LastName = reader["LastName"].ToString(),
+                                PhoneNumber = reader["telephone"].ToString()
+                            };
                             usuarios.Add(user);
                         }
                     }
                 }
-                var response = new ApiResponse();
+                var response = new ApiResponse { Code = string.Empty };
                 if (usuarios.Count > 0)
                 {
-                    response.Code = "1";
-                    response.Payload = usuarios;
+                    response.Code = "0";
+                    response.Data = usuarios;
                 }
                 else
                 {
-                    response.Code = "0";
+                    response.Code = "USER_NOT_FOUND";
                     response.Message = "No se encontraron usuarios con estos parametros de bsuqueda";
                 }
                 return response;
@@ -221,7 +238,8 @@ namespace example.API.Services
                                 ,FirstName = @FirstName
                                 ,LastName = @LastName
                                 ,email = @email
-                                ,telephone = @telephone
+                                ,username = @username
+                                ,phoneNumber = @phoneNumber
                                 WHERE Id = @id";
 
                 var cmd = new SqlCommand(query, conn);
@@ -230,14 +248,15 @@ namespace example.API.Services
                 cmd.Parameters.AddWithValue("@address", user.Address ?? "");
                 cmd.Parameters.AddWithValue("@FirstName", user.FirstName ?? "");
                 cmd.Parameters.AddWithValue("@LastName", user.LastName ?? "");
-                cmd.Parameters.AddWithValue("@email", user.Email ?? "");
-                cmd.Parameters.AddWithValue("@telephone", user.PhoneNumber ?? "");
+                cmd.Parameters.AddWithValue("@email", user.Email);
+                cmd.Parameters.AddWithValue("@username", user.Username);
+                cmd.Parameters.AddWithValue("@phoneNumber", user.PhoneNumber ?? "");
                 await conn.OpenAsync();
                 int rowsAffected = await cmd.ExecuteNonQueryAsync();
             }
             var response = new ApiResponse
             {
-                Code = "1",
+                Code = "0",
                 Message = "Actualizado Exitosamente"
             };
             return response;

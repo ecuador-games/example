@@ -1,1 +1,0 @@
-dbo.Usuario_Insert 'Santo Domingo', 'samy.capitanteddy@gmail.com', 'Samuel', 'Martínez', '123456', '0963407013'

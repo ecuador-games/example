@@ -6,11 +6,11 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 -- =============================================
--- Author: Samuel Martínez
+-- Author: Samuel Martï¿½nez
 -- Create date: 27/03/2024
 -- Description:	Sp for get all users
 -- =============================================
-CREATE OR ALTER PROCEDURE dbo.Usuario_Get 
+CREATE OR ALTER PROCEDURE dbo.GetUsuario 
 	-- Add the parameters for the stored procedure here
 AS
 BEGIN
