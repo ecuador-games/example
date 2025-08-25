@@ -1,3 +1,5 @@
+using example.API.DTOs;
+using example.API.DTOs.Requests;
 using example.API.Interfaces;
 using example.API.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -60,11 +62,11 @@ namespace example.API.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] User user)
+        public async Task<IActionResult> Post([FromBody] CreateUserDto createUserDto)
         {
             try
             {
-                var response = await _userService.AddAsync(user);
+                var response = await _userService.AddAsync(createUserDto);
                 return Ok(response);
             }
             catch (System.Exception ex)
@@ -73,10 +75,11 @@ namespace example.API.Controllers
             }
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] User user){
+        public async Task<IActionResult> Put(int id, [FromBody] UpdateUserDto updateUserDto)
+        {
             try
             {
-                var response = await _userService.UpdateAsync(id, user);
+                var response = await _userService.UpdateAsync(id, updateUserDto);
                 return Ok(response);
             }
             catch (System.Exception ex)

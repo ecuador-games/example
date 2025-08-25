@@ -52,14 +52,14 @@ public class User
     /// <summary>
     /// Hashed password for authentication. Never store plain text passwords.
     /// </summary>
-    [Required, MaxLength(256)]
-    public required string PasswordHash { get; set; }
+    [MaxLength(256)]
+    public string? PasswordHash { get; set; }
 
     /// <summary>
     /// Salt used for hashing the password.
     /// </summary>
-    [Required, MaxLength(128)]
-    public required string PasswordSalt { get; set; }
+    [MaxLength(128)]
+    public string? PasswordSalt { get; set; }
 
 
     /// <summary>

@@ -1,4 +1,5 @@
 using example.API.DTOs;
+using example.API.DTOs.Requests;
 using example.API.DTOs.Results;
 using example.API.Interfaces;
 using example.API.Models;
@@ -6,43 +7,55 @@ using Microsoft.Data.SqlClient;
 
 namespace example.API.Services
 {
-    public class UseService : IUserService
+    public class UserService : IUserService
     {
         private readonly IConfiguration _configuration;
         private readonly string _connectionString;
-        public UseService(IConfiguration configuration)
+        public UserService(IConfiguration configuration)
         {
             _configuration = configuration;
             _connectionString = _configuration.GetConnectionString("DefaultConnection");
         }
-        public async Task<ApiResponse> AddAsync(User user)
+        public async Task<ApiResponse> AddAsync(CreateUserDto createUserDto)
         {
             var response = new ApiResponse { Code = string.Empty };
             using (var conn = new SqlConnection(_connectionString))
             {
-                var cmd = new SqlCommand("dbo.InsertUsuario", conn);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Address", user.Address ?? "");
-                cmd.Parameters.AddWithValue("@Email", user.Email);
-                cmd.Parameters.AddWithValue("@Username", user.Username);
-                cmd.Parameters.AddWithValue("@FirstName", user.FirstName ?? "");
-                cmd.Parameters.AddWithValue("@LastName", user.LastName ?? "");
-                cmd.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
-                cmd.Parameters.AddWithValue("@PasswordSalt", user.PasswordSalt);
-                cmd.Parameters.AddWithValue("@PhoneNumber", user.PhoneNumber ?? "");
-                await conn.OpenAsync();
-                using (var reader = await cmd.ExecuteReaderAsync())
+                var user = new User
                 {
-                    if (await reader.ReadAsync())
+                    Address = createUserDto.Address,
+                    Email = createUserDto.Email,
+                    FirstName = createUserDto.FirstName,
+                    LastName = createUserDto.LastName,
+                    PhoneNumber = createUserDto.PhoneNumber,
+                    Username = createUserDto.Username
+                };
+                user.SetPassword(createUserDto.Password);
+                using (var cmd = new SqlCommand("dbo.InsertUsuario", conn))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Address", user.Address ?? "");
+                    cmd.Parameters.AddWithValue("@Email", user.Email);
+                    cmd.Parameters.AddWithValue("@Username", user.Username);
+                    cmd.Parameters.AddWithValue("@FirstName", user.FirstName ?? "");
+                    cmd.Parameters.AddWithValue("@LastName", user.LastName ?? "");
+                    cmd.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
+                    cmd.Parameters.AddWithValue("@PasswordSalt", user.PasswordSalt);
+                    cmd.Parameters.AddWithValue("@PhoneNumber", user.PhoneNumber ?? "");
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        response.Code = reader["code"].ToString();
-                        response.Message = reader["message"].ToString();
+                        if (await reader.ReadAsync())
+                        {
+                            response.Code = reader["code"].ToString();
+                            response.Message = reader["message"].ToString();
+                        }
                     }
+
+                    return response;
                 }
             }
-            return response;
         }
-
         public async Task<ApiResponse> DeleteAsync(int id)
         {
             using (var conn = new SqlConnection(_connectionString))
@@ -230,27 +243,33 @@ namespace example.API.Services
             }
         }
 
-        public async Task<ApiResponse> UpdateAsync(int id, User user)
+        public async Task<ApiResponse> UpdateAsync(int id, UpdateUserDto updateUserDto)
         {
+            var user = new User
+            {
+                Id = id,
+                Address = updateUserDto.Address,
+                Email = updateUserDto.Email,
+                FirstName = updateUserDto.FirstName,
+                LastName = updateUserDto.LastName,
+                PhoneNumber = updateUserDto.PhoneNumber,
+                Username = updateUserDto.Username
+            };
+            user.SetPassword(updateUserDto.Password);
+
             using (var conn = new SqlConnection(_connectionString))
             {
-                string query = @"UPDATE usuario SET address = @address
-                                ,FirstName = @FirstName
-                                ,LastName = @LastName
-                                ,email = @email
-                                ,username = @username
-                                ,phoneNumber = @phoneNumber
-                                WHERE Id = @id";
-
-                var cmd = new SqlCommand(query, conn);
-                cmd.CommandType = System.Data.CommandType.Text;
+                var cmd = new SqlCommand("dbo.UpdateUsuario", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@id", user.Id);
                 cmd.Parameters.AddWithValue("@address", user.Address ?? "");
                 cmd.Parameters.AddWithValue("@FirstName", user.FirstName ?? "");
                 cmd.Parameters.AddWithValue("@LastName", user.LastName ?? "");
-                cmd.Parameters.AddWithValue("@email", user.Email);
-                cmd.Parameters.AddWithValue("@username", user.Username);
-                cmd.Parameters.AddWithValue("@phoneNumber", user.PhoneNumber ?? "");
+                cmd.Parameters.AddWithValue("@Email", user.Email);
+                cmd.Parameters.AddWithValue("@Username", user.Username);
+                cmd.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
+                cmd.Parameters.AddWithValue("@PasswordSalt", user.PasswordSalt);
+                cmd.Parameters.AddWithValue("@PhoneNumber", user.PhoneNumber ?? "");
                 await conn.OpenAsync();
                 int rowsAffected = await cmd.ExecuteNonQueryAsync();
             }
