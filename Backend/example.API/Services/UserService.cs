@@ -58,19 +58,19 @@ namespace example.API.Services
         }
         public async Task<ApiResponse> DeleteAsync(int id)
         {
+            int rowsAffected;
             using (var conn = new SqlConnection(_connectionString))
             {
-                string query = @"DELETE FROM usuario WHERE Id = @id";
-                var cmd = new SqlCommand(query, conn);
-                cmd.CommandType = System.Data.CommandType.Text;
-                cmd.Parameters.AddWithValue("@id", id);
+                var cmd = new SqlCommand("dbo.DeleteUsuario", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", id);
                 await conn.OpenAsync();
-                int rowsAffected = await cmd.ExecuteNonQueryAsync();
+                rowsAffected = await cmd.ExecuteNonQueryAsync();
             }
             var response = new ApiResponse
             {
-                Code = "0",
-                Message = "Eliminado Exitosamente"
+                Code = rowsAffected > 0 ? "0" : "USER_NOT_FOUND",
+                Message = rowsAffected > 0 ? "Eliminado Exitosamente" : "Usuario no encontrado"
             };
             return response;
         }
@@ -196,7 +196,7 @@ namespace example.API.Services
                                     ,username
                                     ,FirstName
                                     ,LastName
-                                    ,telephone
+                                    ,PhoneNumber
                                     
                                 FROM usuario
                                 WHERE FirstName LIKE @text_search
