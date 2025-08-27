@@ -31,7 +31,7 @@ console.log(`la division es: ${totalDivided.toFixed(2)}`);
 
 //Creacion de arrays
 let users = [];
-const url_api = "https://localhost:7071/api/user";
+const url_api = "http://localhost:5053/api/user";
 let isSearch = false;
 let textSearch = "";
 function initial() {
@@ -48,8 +48,8 @@ function initial() {
       return response.json();
     })
     .then((data) => {
-      users = data.payload;
-      if (data.code == "1") {
+      users = data.data;
+      if (data.code == "0") {
         //encabezado de la tabla html
         let table = `<table class="table table-bordered">
                     <thead>
@@ -58,7 +58,7 @@ function initial() {
                       <th>First Name</th>
                       <th>Last Name</th>
                       <th>Email</th>
-                      <th>Telephone</th>
+                      <th>phoneNumber</th>
                       <th>Address</th>
                       <th>Opciones</th>
                     </tr>
@@ -67,13 +67,13 @@ function initial() {
         table += `<tbody>`;
         //Recorremos la lista de usuarios
         let i = 0;
-        for (const item of data.payload) {
+        for (const item of data.data) {
           table += `<tr>
                 <td>${item.id}</td>
                 <td>${item.firstName}</td>
                 <td>${item.lastName}</td>
                 <td>${item.email}</td>
-                <td>${item.telephone}</td>
+                <td>${item.phoneNumber}</td>
                 <td>${item.address}</td>
                   <td>
                     <button type="button" class="btn btn-outline-warning btn-sm" title="Editar" onclick="edit(${i})">
@@ -110,12 +110,12 @@ function edit(index) {
     })
     .then((data) => {
       if (data.code == "1") {
-        let payload = data.payload;
-        document.getElementById("firstName").value = payload.firstName;
-        document.getElementById("lastName").value = payload.lastName;
-        document.getElementById("email").value = payload.email;
-        document.getElementById("telephone").value = payload.telephone;
-        document.getElementById("address").value = payload.address;
+        let data = data.data;
+        document.getElementById("firstName").value = data.firstName;
+        document.getElementById("lastName").value = data.lastName;
+        document.getElementById("email").value = data.email;
+        document.getElementById("phoneNumber").value = data.phoneNumber;
+        document.getElementById("address").value = data.address;
         document.getElementById("div_pwd").style.display = "none";
       }
     });
@@ -169,13 +169,19 @@ function save() {
     return;
   }
 
+  let username = document.getElementById("username").value;
+  if (username.length < 3) {
+    alert("Debe de ingresar el nombre de usuario con al menos tres caracteres");
+    return;
+  }
+
   let lastName = document.getElementById("lastName").value;
-  if (lastName.lenght < 2) {
+  if (lastName.length < 2) {
     alert("Debe de ingresar al menos dos caracteres para el apellido");
     return;
   }
   let email = document.getElementById("email").value;
-  if (email.lenght < 6) {
+  if (email.length < 6) {
     alert("Debe ingresar al menos 6 caracteres en el correo");
     return;
   }
@@ -184,6 +190,7 @@ function save() {
   if (tipo === 1) {
     password = document.getElementById("password").value;
     const passwordValid = validarContraseña(password);
+    console.log(passwordValid);
     if (passwordValid.esValida === false) {
       if (passwordValid.errores.longitudMinima.length > 0) {
         alert(passwordValid.errores.longitudMinima);
@@ -197,8 +204,8 @@ function save() {
     }
   }
   let address = document.getElementById("address").value;
-  let telephone = document.getElementById("telephone").value;
-  if (telephone.length < 10) {
+  let phoneNumber = document.getElementById("phoneNumber").value;
+  if (phoneNumber.length < 10) {
     alert("Debe ingresar un número de teléfono válido");
     return;
   }
@@ -212,7 +219,8 @@ function save() {
     email,
     password,
     address,
-    telephone,
+    username,
+    phoneNumber,
   };
 
   let url = "",
@@ -246,10 +254,10 @@ function save() {
       return response.json();
     })
     .then((data) => {
-      if (data.code == "0") {
-        toastr.warning(data.message);
+      if (data.code !== "0") {
+        toastr.error(data.message);
       }
-      if (data.code == "1") {
+      if (data.code == "0") {
         initial();
         toastr.success(data.message);
         document.getElementById("div_pwd").style.display = "";
@@ -283,7 +291,7 @@ function clearform() {
   document.getElementById("email").value = "";
   document.getElementById("password").value = "";
   document.getElementById("address").value = "";
-  document.getElementById("telephone").value = "";
+  document.getElementById("phoneNumber").value = "";
 }
 
 async function askToDelete(index) {

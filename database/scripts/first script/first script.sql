@@ -6,37 +6,39 @@
 --USE example;
 --go
 
---DROP TABLE usuario
+--DROP TABLE dbo.Users
 
 --USE example
 --go
 
---CREATE TABLE usuario(
---	Id int not null primary key identity (1, 1),
---	Address varchar (300) null,
---	Email varchar (100) not null,
---	FirstName varchar (100) not null,
---	LastName varchar (100) not null,
---	Password varchar (100) not null,
---	Telephone varchar (13) null
---)
+CREATE TABLE dbo.Users(
+	Id int NOT NULL PRIMARY KEY IDENTITY (1, 1),
+	Address VARCHAR (300) NULL,
+	Email VARCHAR (100) NOT NULL,
+	FirstName VARCHAR (100) NOT NULL,
+	LastName VARCHAR (100) NOT NULL,
+	PhoneNumber VARCHAR (13) NULL,
+	Username VARCHAR (100) NOT NULL,
+    PasswordHash VARCHAR(256) NOT NULL,
+    PasswordSalt VARCHAR(128) NOT NULL
+)
 
 --AÑADIR COLUMNAS NUEVAS
--- ALTER TABLE usuario
--- ADD Username varchar(100),
---     PasswordHash varchar(256),
---     PasswordSalt varchar(128);
+-- ALTER TABLE dbo.Users
+-- ADD Username VARCHAR(100),
+--     PasswordHash VARCHAR(256),
+--     PasswordSalt VARCHAR(128);
 
 --COMANDO PARA RENOMBRAR COLUMNAS
---EXEC sp_rename 'usuario.Telephone', 'PhoneNumber', 'COLUMN';
+--EXEC sp_rename 'User.Telephone', 'PhoneNumber', 'COLUMN';
 
 --COMANDO PARA ELIMINAR COLUMNAS
---ALTER TABLE usuario 
+--ALTER TABLE dbo.Users
 --DROP COLUMN Password;
 
 --COMANDO PARA ALTERAR COLUMNAS
---ALTER TABLE usuario 
---ALTER COLUMN PhoneNumber varchar(20);
+--ALTER TABLE dbo.Users
+--ALTER COLUMN PhoneNumber VARCHAR(20);
 
 --COMANDOS PARA VISUALIZAR LA INFORMACION
-SELECT * FROM usuario;
+SELECT * FROM dbo.Users;

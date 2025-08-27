@@ -31,7 +31,7 @@ namespace example.API.Services
                     Username = createUserDto.Username
                 };
                 user.SetPassword(createUserDto.Password);
-                using (var cmd = new SqlCommand("dbo.InsertUsuario", conn))
+                using (var cmd = new SqlCommand("dbo.InsertUser", conn))
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Address", user.Address ?? "");
@@ -61,7 +61,7 @@ namespace example.API.Services
             int rowsAffected;
             using (var conn = new SqlConnection(_connectionString))
             {
-                var cmd = new SqlCommand("dbo.DeleteUsuario", conn);
+                var cmd = new SqlCommand("dbo.DeleteUser", conn);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Id", id);
                 await conn.OpenAsync();
@@ -82,7 +82,7 @@ namespace example.API.Services
             {
                 using (var conn = new SqlConnection(_connectionString))
                 {
-                    var cmd = new SqlCommand("dbo.GetUsuario", conn);
+                    var cmd = new SqlCommand("dbo.GetUsers", conn);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     await conn.OpenAsync();
                     using (var reader = await cmd.ExecuteReaderAsync())
@@ -136,16 +136,8 @@ namespace example.API.Services
             {
                 using (var conn = new SqlConnection(_connectionString))
                 {
-                    string query = @"SELECT Id
-                    ,address
-                    ,email
-                    ,username
-                    ,FirstName
-                    ,LastName
-                    ,phoneNumber
-                    FROM usuario WHERE Id = @id";
-                    var cmd = new SqlCommand(query, conn);
-                    cmd.CommandType = System.Data.CommandType.Text;
+                    var cmd = new SqlCommand("dbo.GetByIdUser", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@id", id);
                     await conn.OpenAsync();
                     using (var reader = await cmd.ExecuteReaderAsync())
@@ -190,20 +182,9 @@ namespace example.API.Services
             {
                 using (var conn = new SqlConnection(_connectionString))
                 {
-                    string query = @"SELECT Id
-                                    ,address
-                                    ,email
-                                    ,username
-                                    ,FirstName
-                                    ,LastName
-                                    ,PhoneNumber
-                                    
-                                FROM usuario
-                                WHERE FirstName LIKE @text_search
-                                    OR LastName LIKE @text_search";
-                    var cmd = new SqlCommand(query, conn);
-                    cmd.CommandType = System.Data.CommandType.Text;
-                    cmd.Parameters.AddWithValue("@text_search", $"%{textSearch}%");
+                    var cmd = new SqlCommand("dbo.SearchUsers", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SearchTerm", textSearch);
                     await conn.OpenAsync();
                     using (var reader = await cmd.ExecuteReaderAsync())
                     {
@@ -212,12 +193,12 @@ namespace example.API.Services
                             var user = new UserDto
                             {
                                 Id = Convert.ToInt32(reader["Id"]),
-                                Address = reader["address"].ToString(),
-                                Email = reader["email"].ToString(),
-                                Username = reader["username"].ToString(),
+                                Address = reader["Address"].ToString(),
+                                Email = reader["Email"].ToString(),
+                                Username = reader["Username"].ToString(),
                                 FirstName = reader["FirstName"].ToString(),
                                 LastName = reader["LastName"].ToString(),
-                                PhoneNumber = reader["telephone"].ToString()
+                                PhoneNumber = reader["PhoneNumber"].ToString()
                             };
                             usuarios.Add(user);
                         }
@@ -259,7 +240,7 @@ namespace example.API.Services
 
             using (var conn = new SqlConnection(_connectionString))
             {
-                var cmd = new SqlCommand("dbo.UpdateUsuario", conn);
+                var cmd = new SqlCommand("dbo.UpdateUser", conn);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@id", user.Id);
                 cmd.Parameters.AddWithValue("@address", user.Address ?? "");

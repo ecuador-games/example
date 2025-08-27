@@ -42,7 +42,7 @@ Notas:
     - El procedimiento no actualiza el campo 'Id'.
     - El procedimiento utiliza SCOPE_IDENTITY() para verificar la actualización, aunque para UPDATE se recomienda usar @@ROWCOUNT.
 */
-CREATE OR ALTER PROCEDURE dbo.UpdateUsuario
+CREATE OR ALTER PROCEDURE dbo.UpdateUser
 	-- Add the parameters for the stored procedure here
     @Id INT,
 	@Address varchar(300), 
@@ -58,14 +58,14 @@ BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
-	IF NOT EXISTS (SELECT TOP 1 1 FROM usuario WHERE Id = @Id)
+	IF NOT EXISTS (SELECT TOP 1 1 FROM dbo.Users WHERE Id = @Id)
 		BEGIN
 			SELECT '50001' as code, 'Este Usuario no existe' as message
 			RETURN
 		END
-	UPDATE usuario
-	SET address = @Address,
-		email = @Email,
+	UPDATE dbo.Users
+	SET Address = @Address,
+		Email = @Email,
 		FirstName = @FirstName,
 		LastName = @LastName,
 		PasswordHash = @PasswordHash,

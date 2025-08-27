@@ -10,7 +10,7 @@ GO
 -- Create date: 27/03/2024
 -- Description:	Sp for delete a user
 -- =============================================
-CREATE OR ALTER PROCEDURE dbo.DeleteUsuario
+CREATE OR ALTER PROCEDURE dbo.DeleteUser
 	@Id INT
 AS
 BEGIN
@@ -18,7 +18,7 @@ BEGIN
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
 
-	DELETE FROM usuario WHERE Id = @Id;
+	DELETE FROM dbo.Users WHERE Id = @Id;
 
 END
 GO
