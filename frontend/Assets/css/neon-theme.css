@@ -1,0 +1,95 @@
+body {
+  background: #18122B;
+  color: #fff;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+}
+.navbar {
+  background: linear-gradient(90deg, #5B21B6 0%, #18122B 100%);
+  box-shadow: 0 2px 8px #0008;
+}
+.navbar-brand, .navbar-nav .nav-link {
+  color: #fff !important;
+  text-shadow: 0 0 6px #00f0ff, 0 0 2px #fff;
+}
+.navbar-nav .nav-link.active {
+  color: #00f0ff !important;
+  font-weight: bold;
+  text-shadow: 0 0 8px #00f0ff, 0 0 2px #fff;
+}
+.btn-outline-success, .btn-outline-primary, .btn-outline-dark {
+  border-width: 2px;
+  border-radius: 30px;
+  font-weight: 600;
+  box-shadow: 0 0 8px #00ffb3, 0 0 2px #fff0;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-outline-success {
+  border-color: #00ffb3;
+  color: #00ffb3;
+}
+.btn-outline-success:hover {
+  background: #00ffb3;
+  color: #18122B;
+  box-shadow: 0 0 16px #00ffb3;
+}
+.btn-outline-primary {
+  border-color: #00f0ff;
+  color: #00f0ff;
+}
+.btn-outline-primary:hover {
+  background: #00f0ff;
+  color: #18122B;
+  box-shadow: 0 0 16px #00f0ff;
+}
+.btn-outline-dark {
+  border-color: #a259ff;
+  color: #a259ff;
+}
+.btn-outline-dark:hover {
+  background: #a259ff;
+  color: #18122B;
+  box-shadow: 0 0 16px #a259ff;
+}
+.card {
+  background: #232046;
+  border: none;
+  box-shadow: 0 2px 16px #0006;
+  color: #fff;
+}
+.form-control, .form-label, textarea {
+  background: #232046;
+  color: #fff;
+  border: 1px solid #5B21B6;
+}
+.form-control:focus {
+  border-color: #00f0ff;
+  box-shadow: 0 0 8px #00f0ff;
+  background: #232046;
+  color: #fff;
+}
+.link-custom {
+  color: #00f0ff;
+  text-shadow: 0 0 6px #00f0ff;
+  font-weight: 500;
+}
+.link-custom:hover {
+  color: #00ffb3;
+  text-shadow: 0 0 8px #00ffb3;
+}
+.page-title {
+  color: #a259ff;
+  text-shadow: 0 0 8px #a259ff;
+}
+footer {
+  background: linear-gradient(90deg, #5B21B6 0%, #18122B 100%);
+  color: #00f0ff;
+  text-shadow: 0 0 8px #00f0ff;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 16px #00f0ff33;
+}
+.border, .rounded {
+  border-color: #00f0ff !important;
+}
+::selection {
+  background: #00f0ff44;
+}

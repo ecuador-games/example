@@ -15,7 +15,7 @@ document.getElementById("pageTitle").innerText = pageTitle;
 const copyright = 2024;
 document.getElementById("copyright").innerText = copyright;
 
-//Operaciones Matemáticas
+//Operaciones Matemáticas      
 let number1 = 10;
 let number2 = 4.5;
 let total = number1 + number2;

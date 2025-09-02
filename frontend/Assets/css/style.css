@@ -1,22 +1,10 @@
-body{
-    background-color: firebrick;
+
+/* Estilos base y utilidades generales */
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-p{
-    /* color: white; */
-    color: white;
-}
-
-.page-title{
-    color: blue;
-}
-
-.link-custom{
-    color: chocolate;
-}
-
-.btn-save{
-    background-color: green;
-    color: white;
-}
+/* Puedes agregar aquí utilidades globales o resets adicionales */
 
