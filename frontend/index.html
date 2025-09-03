@@ -38,6 +38,16 @@
             </li>
             <li class="nav-item"><a class="nav-link" href="#">Acerca</a></li>
             <li class="nav-item"><a class="nav-link" href="#">Contacto</a></li>
+            <li class="nav-item d-flex align-items-center ms-3">
+              <button
+                id="toggleThemeBtn"
+                class="btn btn-outline-primary"
+                title="Cambiar tema"
+                style="padding: 0.375rem 0.75rem"
+              >
+                <i id="themeIcon" class="fa-solid fa-moon"></i>
+              </button>
+            </li>
           </ul>
         </div>
       </div>
@@ -45,6 +55,7 @@
 
     <!-- Contenido principal -->
     <div class="container mt-5">
+      <!-- Botón de tema movido al navbar -->
       <h5 class="page-title" id="pageTitle"></h5>
       <div class="row">
         <div class="col-md-8">
@@ -204,6 +215,48 @@
     <script src="Assets/lib/toastr/toastr.min.js"></script>
     <!-- CUSTOM -->
     <script src="Assets/js/index.js" type="text/javascript"></script>
+    <script>
+      // Actualiza el año automáticamente
+      document.getElementById("copyright").textContent =
+        new Date().getFullYear();
+
+      // Alternancia de tema claro/oscuro con icono
+      const root = document.documentElement;
+      const themeBtn = document.getElementById("toggleThemeBtn");
+      const themeIcon = document.getElementById("themeIcon");
+      let isDark = true;
+
+      const setDarkTheme = () => {
+        root.style.setProperty("--dls25-red", "#F23B3B");
+        root.style.setProperty("--dls25-orange", "#F2A93B");
+        root.style.setProperty("--dls25-yellow", "#F2E23B");
+        root.style.setProperty("--dls25-black", "#181818");
+        root.style.setProperty("--dls25-dark-gray", "#232323");
+        root.style.setProperty("--dls25-white", "#FFFFFF");
+        themeIcon.classList.remove("fa-sun");
+        themeIcon.classList.add("fa-moon");
+      };
+      const setLightTheme = () => {
+        root.style.setProperty("--dls25-red", "#F23B3B");
+        root.style.setProperty("--dls25-orange", "#F2A93B");
+        root.style.setProperty("--dls25-yellow", "#F2A93B");
+        root.style.setProperty("--dls25-black", "#FFFFFF");
+        root.style.setProperty("--dls25-dark-gray", "#F2E23B");
+        root.style.setProperty("--dls25-white", "#181818");
+        themeIcon.classList.remove("fa-moon");
+        themeIcon.classList.add("fa-sun");
+      };
+      themeBtn.addEventListener("click", () => {
+        isDark = !isDark;
+        if (isDark) {
+          setDarkTheme();
+        } else {
+          setLightTheme();
+        }
+      });
+      // Inicializa en modo oscuro
+      setDarkTheme();
+    </script>
     <script>
       // Actualiza el año automáticamente
       document.getElementById("copyright").textContent =
