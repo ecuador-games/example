@@ -1,9 +1,32 @@
+/* Bootstrap color adaptation using DLS25 Palette */
+:root {
+    --bs-primary: var(--dls25-red);
+    --bs-secondary: var(--dls25-dark-gray);
+    --bs-success: var(--dls25-yellow);
+    --bs-danger: var(--dls25-red);
+    --bs-warning: var(--dls25-orange);
+    --bs-info: var(--dls25-yellow);
+    --bs-dark: var(--dls25-black);
+    --bs-light: var(--dls25-white);
+}
+/* DLS25 Palette */
+:root {
+    --dls25-red: #F23B3B;
+    --dls25-orange: #F2A93B;
+    --dls25-yellow: #F2E23B;
+    --dls25-black: #181818;
+    --dls25-dark-gray: #232323;
+    --dls25-white: #FFFFFF;
+}
+
 
 /* Estilos base y utilidades generales */
 html, body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    background: var(--dls25-black);
+    color: var(--dls25-white);
 }
 
 /* Puedes agregar aquí utilidades globales o resets adicionales */

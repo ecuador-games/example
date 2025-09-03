@@ -1,95 +1,104 @@
+/* DLS25 Palette */
+:root {
+  --dls25-red: #F23B3B;
+  --dls25-orange: #F2A93B;
+  --dls25-yellow: #F2E23B;
+  --dls25-black: #181818;
+  --dls25-dark-gray: #232323;
+  --dls25-white: #FFFFFF;
+}
 body {
-  background: #18122B;
-  color: #fff;
+  background: var(--dls25-black);
+  color: var(--dls25-white);
   font-family: 'Segoe UI', 'Arial', sans-serif;
 }
 .navbar {
-  background: linear-gradient(90deg, #5B21B6 0%, #18122B 100%);
-  box-shadow: 0 2px 8px #0008;
+  background: linear-gradient(90deg, var(--dls25-red) 0%, var(--dls25-black) 100%);
+  box-shadow: 0 2px 8px var(--dls25-black);
 }
 .navbar-brand, .navbar-nav .nav-link {
-  color: #fff !important;
-  text-shadow: 0 0 6px #00f0ff, 0 0 2px #fff;
+  color: var(--dls25-white) !important;
+  text-shadow: 0 0 6px var(--dls25-yellow), 0 0 2px var(--dls25-white);
 }
 .navbar-nav .nav-link.active {
-  color: #00f0ff !important;
+  color: var(--dls25-yellow) !important;
   font-weight: bold;
-  text-shadow: 0 0 8px #00f0ff, 0 0 2px #fff;
+  text-shadow: 0 0 8px var(--dls25-yellow), 0 0 2px var(--dls25-white);
 }
 .btn-outline-success, .btn-outline-primary, .btn-outline-dark {
   border-width: 2px;
   border-radius: 30px;
   font-weight: 600;
-  box-shadow: 0 0 8px #00ffb3, 0 0 2px #fff0;
+  box-shadow: 0 0 8px var(--dls25-yellow), 0 0 2px var(--dls25-white);
   transition: background 0.2s, color 0.2s;
 }
 .btn-outline-success {
-  border-color: #00ffb3;
-  color: #00ffb3;
+  border-color: var(--dls25-yellow);
+  color: var(--dls25-yellow);
 }
 .btn-outline-success:hover {
-  background: #00ffb3;
-  color: #18122B;
-  box-shadow: 0 0 16px #00ffb3;
+  background: var(--dls25-yellow);
+  color: var(--dls25-black);
+  box-shadow: 0 0 16px var(--dls25-yellow);
 }
 .btn-outline-primary {
-  border-color: #00f0ff;
-  color: #00f0ff;
+  border-color: var(--dls25-red);
+  color: var(--dls25-red);
 }
 .btn-outline-primary:hover {
-  background: #00f0ff;
-  color: #18122B;
-  box-shadow: 0 0 16px #00f0ff;
+  background: var(--dls25-red);
+  color: var(--dls25-black);
+  box-shadow: 0 0 16px var(--dls25-red);
 }
 .btn-outline-dark {
-  border-color: #a259ff;
-  color: #a259ff;
+  border-color: var(--dls25-dark-gray);
+  color: var(--dls25-dark-gray);
 }
 .btn-outline-dark:hover {
-  background: #a259ff;
-  color: #18122B;
-  box-shadow: 0 0 16px #a259ff;
+  background: var(--dls25-dark-gray);
+  color: var(--dls25-black);
+  box-shadow: 0 0 16px var(--dls25-dark-gray);
 }
 .card {
-  background: #232046;
+  background: var(--dls25-dark-gray);
   border: none;
-  box-shadow: 0 2px 16px #0006;
-  color: #fff;
+  box-shadow: 0 2px 16px var(--dls25-black);
+  color: var(--dls25-white);
 }
 .form-control, .form-label, textarea {
-  background: #232046;
-  color: #fff;
-  border: 1px solid #5B21B6;
+  background: var(--dls25-dark-gray);
+  color: var(--dls25-white);
+  border: 1px solid var(--dls25-red);
 }
 .form-control:focus {
-  border-color: #00f0ff;
-  box-shadow: 0 0 8px #00f0ff;
-  background: #232046;
-  color: #fff;
+  border-color: var(--dls25-yellow);
+  box-shadow: 0 0 8px var(--dls25-yellow);
+  background: var(--dls25-dark-gray);
+  color: var(--dls25-white);
 }
 .link-custom {
-  color: #00f0ff;
-  text-shadow: 0 0 6px #00f0ff;
+  color: var(--dls25-yellow);
+  text-shadow: 0 0 6px var(--dls25-yellow);
   font-weight: 500;
 }
 .link-custom:hover {
-  color: #00ffb3;
-  text-shadow: 0 0 8px #00ffb3;
+  color: var(--dls25-orange);
+  text-shadow: 0 0 8px var(--dls25-orange);
 }
 .page-title {
-  color: #a259ff;
-  text-shadow: 0 0 8px #a259ff;
+  color: var(--dls25-red);
+  text-shadow: 0 0 8px var(--dls25-red);
 }
 footer {
-  background: linear-gradient(90deg, #5B21B6 0%, #18122B 100%);
-  color: #00f0ff;
-  text-shadow: 0 0 8px #00f0ff;
+  background: linear-gradient(90deg, var(--dls25-red) 0%, var(--dls25-black) 100%);
+  color: var(--dls25-yellow);
+  text-shadow: 0 0 8px var(--dls25-yellow);
   border-radius: 0.5rem;
-  box-shadow: 0 0 16px #00f0ff33;
+  box-shadow: 0 0 16px var(--dls25-yellow);
 }
 .border, .rounded {
-  border-color: #00f0ff !important;
+  border-color: var(--dls25-yellow) !important;
 }
 ::selection {
-  background: #00f0ff44;
+  background: color-mix(in srgb, var(--dls25-yellow) 27%, transparent);
 }
