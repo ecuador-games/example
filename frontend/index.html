@@ -1,296 +1,1074 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Practica Html</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Theme Example</title>
     <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <!-- Estilos personalizados -->
-    <link rel="stylesheet" href="Assets/css/style.css" />
-    <link rel="stylesheet" href="Assets/lib/toastr/toastr.min.css" />
-    <link
-      rel="stylesheet"
-      href="Assets/lib/fontawesome-free-6.5.1-web/fontawesome-free-6.5.1-web/css/all.min.css"
-    />
-  </head>
-  <body>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* === VARIABLES CSS PARA TEMAS === */
+        :root {
+            /* Tema Oscuro (Default) */
+            --primary: #667eea;
+            --primary-light: #818cf8;
+            --primary-dark: #4338ca;
+            --secondary: #f093fb;
+            --accent: #fbbf24;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            
+            /* Colores de superficie */
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --bg-card: rgba(30, 41, 59, 0.8);
+            --bg-glass: rgba(30, 41, 59, 0.6);
+            
+            /* Texto */
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            
+            /* Bordes */
+            --border: rgba(148, 163, 184, 0.2);
+            --border-hover: rgba(148, 163, 184, 0.3);
+            
+            /* Sombras */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-glow: 0 0 20px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Tema Claro */
+        [data-theme="light"] {
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --primary-dark: #3730a3;
+            --secondary: #ec4899;
+            --accent: #f59e0b;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #d97706;
+            
+            /* Colores de superficie */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #e2e8f0;
+            --bg-card: rgba(248, 250, 252, 0.8);
+            --bg-glass: rgba(248, 250, 252, 0.6);
+            
+            /* Texto */
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            
+            /* Bordes */
+            --border: rgba(71, 85, 105, 0.2);
+            --border-hover: rgba(71, 85, 105, 0.3);
+            
+            /* Sombras */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-glow: 0 0 20px rgba(79, 70, 229, 0.2);
+        }
+
+        /* === ESTILOS BASE === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* === NAVBAR MEJORADO === */
+        .navbar {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        .navbar-nav .nav-link.active {
+            color: var(--primary);
+        }
+
+        .navbar-nav .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 2px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        /* === BOTONES MODERNOS === */
+        .btn-modern {
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            padding: 12px 24px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-modern::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-modern:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary-modern {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-outline-modern {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline-modern:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .theme-toggle {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* === CARDS CON GLASSMORPHISM === */
+        .card-glass {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+        }
+
+        .card-glass:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+            border-color: var(--border-hover);
+        }
+
+        /* === FORMULARIOS MODERNOS === */
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-control-modern {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .form-control-modern:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--bg-secondary);
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-label-modern {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        /* === ANIMACIONES === */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* === SECTION STYLING === */
+        .section {
+            margin: 4rem 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* === FOOTER === */
+        footer {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
+        }
+
+        .link-gradient {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .link-gradient:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.2);
+        }
+
+        /* === TABLA MODERNA === */
+        .table-modern {
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .table-modern thead {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+        }
+
+        .table-modern tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: background-color 0.3s ease;
+        }
+
+        .table-modern tbody tr:hover {
+            background-color: var(--bg-tertiary);
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .btn-modern {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+        }
+
+        /* === UTILIDADES === */
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .bg-gradient {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        .border-gradient {
+            border: 2px solid;
+            border-image: linear-gradient(135deg, var(--primary), var(--secondary)) 1;
+        }
+    </style>
+</head>
+<body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Example</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link active" href="#">Inicio</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#acerca">Acerca</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#contacto">Contacto</a>
-            </li>
-            <li class="nav-item d-flex align-items-center ms-3">
-              <button
-                id="toggleThemeBtn"
-                class="btn btn-outline-primary"
-                title="Cambiar tema"
-                style="padding: 0.375rem 0.75rem"
-              >
-                <i id="themeIcon" class="fa-solid fa-moon"></i>
-              </button>
-            </li>
-          </ul>
+        <div class="container">
+            <a class="navbar-brand animate-pulse" href="#">ModernApp</a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fas fa-bars" style="color: var(--text-primary);"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#inicio">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#acerca">Acerca</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contacto">Contacto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#usuarios">Usuarios</a>
+                    </li>
+                </ul>
+                <button id="themeToggle" class="theme-toggle" title="Cambiar tema">
+                    <i id="themeIcon" class="fas fa-moon"></i>
+                </button>
+            </div>
         </div>
-      </div>
     </nav>
 
-    <!-- Contenido principal -->
-    <div class="container mt-5">
-      <!-- Botón de tema movido al navbar -->
-      <h5 class="page-title" id="pageTitle"></h5>
-      <div class="row">
-        <div class="col-md-8">
-          <!-- Etiqueta de parrafos-->
-          <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsam
-            asperiores, odio quos possimus accusantium magni earum, enim
-            blanditiis id quasi quibusdam in incidunt ducimus aliquam nobis
-            commodi porro eos distinctio?
-          </p>
-          <p class="mt-3 p-2 border rounded">
-            <b>Gracias por visitarnos</b><br />
-            <strong>Example agradece</strong><br />
-            Los esperamos de vuelta
-          </p>
-          <!-- Sección Acerca de -->
-          <section id="acerca" class="mt-5">
-            <h3 class="mb-3">
-              <i class="fa-solid fa-circle-info me-2"></i>Acerca de
-            </h3>
-            <p>
-              Este proyecto es un ejemplo de integración de frontend moderno con
-              estilos personalizados y alternancia de tema claro/oscuro. Utiliza
-              Bootstrap, FontAwesome y una paleta de colores inspirada en Dream
-              League Soccer 2025.
-            </p>
-            <ul>
-              <li>Diseño responsivo y moderno</li>
-              <li>Paleta de colores personalizada</li>
-              <li>Componentes reutilizables</li>
-              <li>Interactividad con JavaScript</li>
-            </ul>
-          </section>
-          <!-- Sección Contacto -->
-          <section id="contacto" class="mt-5">
-            <h3 class="mb-3">
-              <i class="fa-solid fa-envelope me-2"></i>Contacto
-            </h3>
-            <p>
-              ¿Deseas registrarte o contactarnos? Completa el siguiente
-              formulario:
-            </p>
-            <form action="javascript:void(0)" onsubmit="save()">
-              <div class="row">
-                <div class="col-12">
-                  <label for="firstName" class="form-label">First Name</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="firstName"
-                    id="firstName"
-                    required
-                  />
-                  <label for="lastName" class="form-label">Last Name</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="lastName"
-                    id="lastName"
-                    required
-                  />
-                  <label for="username" class="form-label">Username</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="username"
-                    id="username"
-                    minlength="3"
-                    maxlength="100"
-                    required
-                  />
-                  <label for="email" class="form-label">Email:</label>
-                  <input
-                    type="email"
-                    class="form-control"
-                    name="email"
-                    id="email"
-                    required
-                  />
-                  <div id="div_pwd">
-                    <label for="Password" class="form-label">Password:</label>
-                    <input
-                      type="password"
-                      class="form-control"
-                      name="password"
-                      id="password"
-                    />
-                  </div>
-                  <label for="phoneNumber" class="form-label"
-                    >Phone Number:</label
-                  >
-                  <input
-                    type="tel"
-                    class="form-control"
-                    name="phoneNumber"
-                    id="phoneNumber"
-                    maxlength="13"
-                  />
-                  <label for="address" class="form-label">Address:</label>
-                  <textarea
-                    name="address"
-                    class="form-control"
-                    id="address"
-                    rows="3"
-                  ></textarea>
+    <!-- Contenido Principal -->
+    <div class="container mt-5 pt-5">
+        <!-- Hero Section -->
+        <section id="inicio" class="section animate-fade-in">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="section-title mb-4">
+                        Bienvenido a <span class="text-gradient">ModernApp</span>
+                    </h1>
+                    <p class="section-subtitle">
+                        Una aplicación web moderna con diseño responsivo, tema claro/oscuro y 
+                        componentes interactivos construida con las mejores prácticas de desarrollo frontend.
+                    </p>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <button class="btn btn-primary-modern btn-modern">
+                            <i class="fas fa-rocket me-2"></i>Comenzar
+                        </button>
+                        <button class="btn btn-outline-modern btn-modern">
+                            <i class="fas fa-info-circle me-2"></i>Más Info
+                        </button>
+                    </div>
                 </div>
-              </div>
-              <button type="submit" class="btn btn-outline-success mt-2">
-                Guardar
-              </button>
-            </form>
-          </section>
-        </div>
-        <div class="col-md-4">
-          <!-- Espacio reservado para futuros widgets o información -->
-        </div>
-      </div>
-      <!-- Buscador y tabla -->
-      <div class="card mt-4">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="input-group mb-3">
-                <input
-                  type="text"
-                  name="textSearch"
-                  id="textSearch"
-                  class="form-control"
-                  placeholder="Buscar usuario"
-                />
-                <button
-                  type="button"
-                  class="btn btn-outline-primary"
-                  onclick="search()"
-                >
-                  <i class="fa fa-search"></i>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-dark"
-                  title="Limpiar busqueda"
-                  onclick="clearSearch()"
-                >
-                  <i class="fa fa-close"></i>
-                </button>
-              </div>
+                <div class="col-lg-4">
+                    <div class="card-glass p-4 text-center">
+                        <i class="fas fa-code text-gradient" style="font-size: 4rem;"></i>
+                        <h4 class="mt-3">Tecnologías Modernas</h4>
+                        <p class="text-muted">HTML5, CSS3, JavaScript, Bootstrap 5</p>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="table-responsive mt-2" id="users-table"></div>
-        </div>
-      </div>
-      <footer class="text-center py-3 mt-5 rounded">
-        <div class="mb-2">
-          <a
-            class="link-custom mx-2"
-            href="https://www.youtube.com/"
-            target="_blank"
-            >Ir a Youtube</a
-          >
-          <a
-            class="link-custom mx-2"
-            href="https://chat.openai.com/"
-            target="_blank"
-            >Ir a Chat GPT</a
-          >
-        </div>
-        &copy; <span id="copyright"></span> Example. Todos los derechos
-        reservados.
-      </footer>
+        </section>
+
+        <!-- Sección Acerca -->
+        <section id="acerca" class="section">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card-glass p-4">
+                        <h3 class="section-title">
+                            <i class="fas fa-info-circle me-2"></i>Acerca del Proyecto
+                        </h3>
+                        <p class="section-subtitle">
+                            Este proyecto demuestra las mejores prácticas en desarrollo web moderno
+                        </p>
+                        
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <h5 class="text-gradient">Características</h5>
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-check text-success me-2"></i>Diseño responsivo</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Tema claro/oscuro</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Animaciones suaves</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Glassmorphism UI</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="text-gradient">Tecnologías</h5>
+                                <ul class="list-unstyled">
+                                    <li><i class="fab fa-html5 text-warning me-2"></i>HTML5 Semántico</li>
+                                    <li><i class="fab fa-css3-alt text-primary me-2"></i>CSS3 Variables</li>
+                                    <li><i class="fab fa-js-square text-warning me-2"></i>JavaScript ES6+</li>
+                                    <li><i class="fab fa-bootstrap text-primary me-2"></i>Bootstrap 5</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-glass p-4">
+                        <h5 class="text-gradient">Estadísticas del Proyecto</h5>
+                        <div class="mt-3">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>HTML</span>
+                                <span>45%</span>
+                            </div>
+                            <div class="progress mb-3" style="height: 8px;">
+                                <div class="progress-bar bg-gradient" style="width: 45%"></div>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>CSS</span>
+                                <span>35%</span>
+                            </div>
+                            <div class="progress mb-3" style="height: 8px;">
+                                <div class="progress-bar bg-gradient" style="width: 35%"></div>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>JavaScript</span>
+                                <span>20%</span>
+                            </div>
+                            <div class="progress mb-3" style="height: 8px;">
+                                <div class="progress-bar bg-gradient" style="width: 20%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Contacto -->
+        <section id="contacto" class="section">
+            <div class="card-glass p-4">
+                <h3 class="section-title">
+                    <i class="fas fa-envelope me-2"></i>Formulario de Contacto
+                </h3>
+                <p class="section-subtitle">
+                    Completa el formulario para registrarte o contactarnos
+                </p>
+
+                <form id="contactForm" class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label-modern">Nombre</label>
+                            <input type="text" class="form-control-modern" id="firstName" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label-modern">Apellido</label>
+                            <input type="text" class="form-control-modern" id="lastName" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label-modern">Usuario</label>
+                            <input type="text" class="form-control-modern" id="username" minlength="3" maxlength="100" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label-modern">Email</label>
+                            <input type="email" class="form-control-modern" id="email" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label-modern">Contraseña</label>
+                            <input type="password" class="form-control-modern" id="password" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label-modern">Teléfono</label>
+                            <input type="tel" class="form-control-modern" id="phoneNumber">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="form-label-modern">Dirección</label>
+                            <textarea class="form-control-modern" id="address" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary-modern btn-modern">
+                            <i class="fas fa-save me-2"></i>Guardar
+                        </button>
+                        <button type="reset" class="btn btn-outline-modern btn-modern ms-2">
+                            <i class="fas fa-undo me-2"></i>Limpiar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Sección Usuarios -->
+        <section id="usuarios" class="section">
+            <div class="card-glass p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="section-title mb-0">
+                        <i class="fas fa-users me-2"></i>Gestión de Usuarios
+                    </h3>
+                    <button class="btn btn-primary-modern btn-modern">
+                        <i class="fas fa-user-plus me-2"></i>Nuevo Usuario
+                    </button>
+                </div>
+
+                <!-- Buscador -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control-modern" id="searchInput" placeholder="Buscar usuario...">
+                            <button class="btn btn-primary-modern btn-modern ms-2" onclick="searchUser()">
+                                <i class="fas fa-search"></i>
+                            </button>
+                            <button class="btn btn-outline-modern btn-modern ms-2" onclick="clearSearch()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabla de usuarios -->
+                <div class="table-responsive">
+                    <div id="usersTable" class="table-modern">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Email</th>
+                                    <th>Teléfono</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Juan Pérez</td>
+                                    <td>juan@example.com</td>
+                                    <td>+1234567890</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-modern me-2">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-modern">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>María García</td>
+                                    <td>maria@example.com</td>
+                                    <td>+1234567891</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-modern me-2">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-modern">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center py-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-center justify-content-md-start gap-3">
+                        <a href="https://youtube.com" target="_blank" class="link-gradient">
+                            <i class="fab fa-youtube me-1"></i>YouTube
+                        </a>
+                        <a href="https://github.com" target="_blank" class="link-gradient">
+                            <i class="fab fa-github me-1"></i>GitHub
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" class="link-gradient">
+                            <i class="fab fa-linkedin me-1"></i>LinkedIn
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-0 text-muted">
+                        &copy; <span id="currentYear"></span> ModernApp. Todos los derechos reservados.
+                    </p>
+                </div>
+            </div>
+        </footer>
     </div>
 
-    <!-- Scripts de JavaScript -->
-    <!-- Bootstrap Bundle JS -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- JQUERY -->
-    <script
-      src="https://code.jquery.com/jquery-3.7.1.min.js"
-      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-      crossorigin="anonymous"
-    ></script>
-    <!-- Sweet Alert -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- TOASTR NOTIFICATIONS -->
-    <script src="Assets/lib/toastr/toastr.min.js"></script>
-    <!-- CUSTOM -->
-    <script src="Assets/js/index.js" type="text/javascript"></script>
     <script>
-      // Actualiza el año automáticamente
-      document.getElementById("copyright").textContent =
-        new Date().getFullYear();
+        // Configuración del tema
+        class ThemeManager {
+            constructor() {
+                this.currentTheme = this.getStoredTheme() || this.getPreferredTheme();
+                this.themeToggle = document.getElementById('themeToggle');
+                this.themeIcon = document.getElementById('themeIcon');
+                
+                this.init();
+            }
 
-      // Alternancia de tema claro/oscuro con icono
-      const root = document.documentElement;
-      const themeBtn = document.getElementById("toggleThemeBtn");
-      const themeIcon = document.getElementById("themeIcon");
-      let isDark = true;
+            init() {
+                this.applyTheme(this.currentTheme);
+                this.themeToggle.addEventListener('click', () => this.toggleTheme());
+                
+                // Escuchar cambios en las preferencias del sistema
+                window.matchMedia('(prefers-color-scheme: dark)')
+                    .addEventListener('change', (e) => {
+                        if (!this.getStoredTheme()) {
+                            this.applyTheme(e.matches ? 'dark' : 'light');
+                        }
+                    });
+            }
 
-      const setDarkTheme = () => {
-        root.style.setProperty("--dls25-red", "#F23B3B");
-        root.style.setProperty("--dls25-orange", "#F2A93B");
-        root.style.setProperty("--dls25-yellow", "#F2E23B");
-        root.style.setProperty("--dls25-black", "#181818");
-        root.style.setProperty("--dls25-dark-gray", "#232323");
-        root.style.setProperty("--dls25-white", "#FFFFFF");
-        themeIcon.classList.remove("fa-sun");
-        themeIcon.classList.add("fa-moon");
-      };
-      const setLightTheme = () => {
-        root.style.setProperty("--dls25-red", "#F23B3B");
-        root.style.setProperty("--dls25-orange", "#F2A93B");
-        root.style.setProperty("--dls25-yellow", "#F2A93B");
-        root.style.setProperty("--dls25-black", "#FFFFFF");
-        root.style.setProperty("--dls25-dark-gray", "#F2E23B");
-        root.style.setProperty("--dls25-white", "#181818");
-        themeIcon.classList.remove("fa-moon");
-        themeIcon.classList.add("fa-sun");
-      };
-      themeBtn.addEventListener("click", () => {
-        isDark = !isDark;
-        if (isDark) {
-          setDarkTheme();
-        } else {
-          setLightTheme();
+            getStoredTheme() {
+                return localStorage.getItem('theme');
+            }
+
+            getPreferredTheme() {
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+
+            applyTheme(theme) {
+                this.currentTheme = theme;
+                document.documentElement.setAttribute('data-theme', theme);
+                
+                // Actualizar icono
+                if (theme === 'dark') {
+                    this.themeIcon.className = 'fas fa-sun';
+                } else {
+                    this.themeIcon.className = 'fas fa-moon';
+                }
+                
+                // Guardar preferencia
+                localStorage.setItem('theme', theme);
+            }
+
+            toggleTheme() {
+                const newTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
+                this.applyTheme(newTheme);
+                
+                // Animación suave
+                document.body.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                setTimeout(() => {
+                    document.body.style.transition = '';
+                }, 300);
+            }
         }
-      });
-      // Inicializa en modo oscuro
-      setDarkTheme();
+
+        // Gestión del formulario
+        class FormManager {
+            constructor() {
+                this.form = document.getElementById('contactForm');
+                this.init();
+            }
+
+            init() {
+                this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+            }
+
+            handleSubmit(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(this.form);
+                const data = Object.fromEntries(formData);
+                
+                // Simulación de envío
+                this.showNotification('Formulario enviado correctamente', 'success');
+                console.log('Datos del formulario:', data);
+            }
+
+            showNotification(message, type = 'info') {
+                // Crear notificación moderna
+                const notification = document.createElement('div');
+                notification.className = `alert alert-${type} position-fixed`;
+                notification.style.cssText = `
+                    top: 100px;
+                    right: 20px;
+                    z-index: 1050;
+                    min-width: 300px;
+                    border-radius: 12px;
+                    backdrop-filter: blur(20px);
+                    border: 1px solid var(--border);
+                    animation: slideInRight 0.3s ease-out;
+                `;
+                notification.innerHTML = `
+                    <i class="fas fa-check-circle me-2"></i>
+                    ${message}
+                    <button type="button" class="btn-close" onclick="this.parentElement.remove()"></button>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // Auto-remover después de 3 segundos
+                setTimeout(() => {
+                    if (notification.parentElement) {
+                        notification.style.animation = 'slideOutRight 0.3s ease-out';
+                        setTimeout(() => notification.remove(), 300);
+                    }
+                }, 3000);
+            }
+        }
+
+        // Gestión de usuarios
+        class UserManager {
+            constructor() {
+                this.users = [
+                    { id: 1, nombre: 'Juan Pérez', email: 'juan@example.com', telefono: '+1234567890' },
+                    { id: 2, nombre: 'María García', email: 'maria@example.com', telefono: '+1234567891' },
+                    { id: 3, nombre: 'Carlos López', email: 'carlos@example.com', telefono: '+1234567892' },
+                    { id: 4, nombre: 'Ana Martínez', email: 'ana@example.com', telefono: '+1234567893' }
+                ];
+                this.filteredUsers = [...this.users];
+                this.init();
+            }
+
+            init() {
+                this.renderUsers();
+                
+                // Configurar búsqueda en tiempo real
+                const searchInput = document.getElementById('searchInput');
+                searchInput.addEventListener('input', (e) => this.searchUsers(e.target.value));
+            }
+
+            searchUsers(query) {
+                this.filteredUsers = this.users.filter(user => 
+                    user.nombre.toLowerCase().includes(query.toLowerCase()) ||
+                    user.email.toLowerCase().includes(query.toLowerCase()) ||
+                    user.telefono.includes(query)
+                );
+                this.renderUsers();
+            }
+
+            renderUsers() {
+                const tbody = document.querySelector('#usersTable tbody');
+                
+                if (this.filteredUsers.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="5" class="text-center py-4">
+                                <i class="fas fa-search fa-2x text-muted mb-2"></i>
+                                <p class="text-muted">No se encontraron usuarios</p>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                tbody.innerHTML = this.filteredUsers.map(user => `
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>${user.nombre}</td>
+                        <td>${user.email}</td>
+                        <td>${user.telefono}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-modern me-2" onclick="userManager.editUser(${user.id})" title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-modern" onclick="userManager.deleteUser(${user.id})" title="Eliminar">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            editUser(id) {
+                const user = this.users.find(u => u.id === id);
+                if (user) {
+                    // Simular edición
+                    this.showModal(`Editando usuario: ${user.nombre}`, 'info');
+                }
+            }
+
+            deleteUser(id) {
+                const user = this.users.find(u => u.id === id);
+                if (user) {
+                    if (confirm(`¿Estás seguro de eliminar a ${user.nombre}?`)) {
+                        this.users = this.users.filter(u => u.id !== id);
+                        this.filteredUsers = this.filteredUsers.filter(u => u.id !== id);
+                        this.renderUsers();
+                        this.showModal('Usuario eliminado correctamente', 'success');
+                    }
+                }
+            }
+
+            showModal(message, type) {
+                // Implementación simple de modal
+                alert(message);
+            }
+        }
+
+        // Navegación suave
+        class NavigationManager {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                // Navegación suave para enlaces internos
+                document.querySelectorAll('a[href^="#"]').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const target = document.querySelector(link.getAttribute('href'));
+                        if (target) {
+                            const offsetTop = target.offsetTop - 100; // Compensar navbar fijo
+                            window.scrollTo({
+                                top: offsetTop,
+                                behavior: 'smooth'
+                            });
+                            
+                            // Actualizar navegación activa
+                            this.updateActiveNav(link);
+                        }
+                    });
+                });
+
+                // Actualizar navegación al hacer scroll
+                window.addEventListener('scroll', () => this.updateNavOnScroll());
+            }
+
+            updateActiveNav(activeLink) {
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                activeLink.classList.add('active');
+            }
+
+            updateNavOnScroll() {
+                const sections = document.querySelectorAll('section[id]');
+                const scrollPos = window.scrollY + 150;
+
+                sections.forEach(section => {
+                    const top = section.offsetTop;
+                    const height = section.offsetHeight;
+                    const id = section.getAttribute('id');
+
+                    if (scrollPos >= top && scrollPos < top + height) {
+                        document.querySelectorAll('.nav-link').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }
+        }
+
+        // Funciones globales para compatibilidad
+        function searchUser() {
+            const query = document.getElementById('searchInput').value;
+            userManager.searchUsers(query);
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            userManager.searchUsers('');
+        }
+
+        // Animaciones CSS adicionales
+        const additionalStyles = `
+            @keyframes slideInRight {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes slideOutRight {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+
+            .animate-on-scroll {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .animate-on-scroll.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .progress-bar {
+                animation: progressFill 2s ease-out;
+            }
+
+            @keyframes progressFill {
+                from {
+                    width: 0;
+                }
+            }
+
+            /* Mejoras adicionales para accesibilidad */
+            .btn-modern:focus {
+                outline: 2px solid var(--primary);
+                outline-offset: 2px;
+            }
+
+            .form-control-modern:focus {
+                outline: none;
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                * {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                }
+            }
+        `;
+
+        // Agregar estilos adicionales
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = additionalStyles;
+        document.head.appendChild(styleSheet);
+
+        // Inicialización de la aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            // Actualizar año actual
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            
+            // Inicializar managers
+            const themeManager = new ThemeManager();
+            const formManager = new FormManager();
+            window.userManager = new UserManager(); // Global para funciones onclick
+            const navigationManager = new NavigationManager();
+
+            // Animaciones al hacer scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            // Observar elementos para animaciones
+            document.querySelectorAll('.card-glass, .section').forEach(el => {
+                el.classList.add('animate-on-scroll');
+                observer.observe(el);
+            });
+
+            console.log('🚀 ModernApp inicializada correctamente');
+            console.log('💡 Cambios principales:');
+            console.log('✅ Sistema de temas mejorado con CSS Variables');
+            console.log('✅ Diseño Glassmorphism moderno');
+            console.log('✅ Animaciones y transiciones suaves');
+            console.log('✅ Formularios con mejor UX');
+            console.log('✅ Navegación inteligente');
+            console.log('✅ Gestión de usuarios mejorada');
+            console.log('✅ Responsive design optimizado');
+        });
     </script>
-    <script>
-      // Actualiza el año automáticamente
-      document.getElementById("copyright").textContent =
-        new Date().getFullYear();
-    </script>
-  </body>
+</body>
 </html>
