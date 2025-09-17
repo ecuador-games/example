@@ -27,7 +27,7 @@ app.UseRouting();
 
 app.UseCors(o =>
 {
-    o.WithOrigins("http://127.0.0.1:5500");
+    o.WithOrigins("http://localhost:3000");
     o.AllowAnyMethod();
     o.AllowAnyHeader();
 });

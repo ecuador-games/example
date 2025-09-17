@@ -1,0 +1,31 @@
+{
+  "recommendations": [
+    "ms-dotnettools.csharp",
+    "ms-dotnettools.vscode-dotnet-runtime",
+    "bradlc.vscode-tailwindcss",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "ms-vscode.vscode-json",
+    "formulahendry.auto-rename-tag",
+    "christian-kohler.path-intellisense",
+    "ms-vscode.powershell",
+    "ms-vscode.vscode-typescript-next",
+    "ms-vscode.live-server",
+    "ritwickdey.liveserver",
+    "ms-vscode.vscode-css-peek",
+    "zignd.html-css-class-completion",
+    "ms-vscode.vscode-html-css-support",
+    "ms-vscode.vscode-javascript-booster",
+    "ms-vscode.vscode-json",
+    "redhat.vscode-yaml",
+    "ms-vscode.powershell",
+    "ms-vscode.vscode-git-graph",
+    "eamodio.gitlens",
+    "ms-vscode.vscode-github-issue-notebooks",
+    "github.vscode-pull-request-github",
+    "ms-vscode.vscode-github-actions",
+    "ms-vscode.vscode-docker",
+    "ms-azuretools.vscode-docker"
+  ],
+  "unwantedRecommendations": ["ms-vscode.vscode-typescript", "hookyqr.beautify"]
+}
