@@ -2,219 +2,236 @@
 
 /* Navbar */
 .navbar {
-    background: var(--bg-glass);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-    transition: all var(--transition-normal);
-    padding: var(--spacing-md) 0;
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  transition: all var(--transition-normal);
+  padding: var(--spacing-md) 0;
 }
 
 .navbar-brand {
-    font-weight: 700;
-    font-size: 1.5rem;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    transition: all var(--transition-normal);
+  font-weight: 700;
+  font-size: 1.5rem;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: all var(--transition-normal);
 }
 
 .navbar-nav .nav-link {
-    color: var(--text-secondary);
-    font-weight: 500;
-    transition: all var(--transition-normal);
-    position: relative;
-    padding: var(--spacing-sm) var(--spacing-md);
+  color: var(--text-secondary);
+  font-weight: 500;
+  transition: all var(--transition-normal);
+  position: relative;
+  padding: var(--spacing-sm) var(--spacing-md);
 }
 
 .navbar-nav .nav-link:hover {
-    color: var(--primary);
-    transform: translateY(-1px);
+  color: var(--primary);
+  transform: translateY(-1px);
 }
 
 .navbar-nav .nav-link.active {
-    color: var(--primary);
+  color: var(--primary);
 }
 
 .navbar-nav .nav-link.active::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 20px;
-    height: 2px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    border-radius: 2px;
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 2px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-radius: 2px;
 }
 
 /* Botones */
 .btn-modern {
-    border: none;
-    border-radius: var(--radius-xl);
-    font-weight: 600;
-    padding: 12px 24px;
-    transition: all var(--transition-cubic);
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--spacing-sm);
+  border: none;
+  border-radius: var(--radius-xl);
+  font-weight: 600;
+  padding: 12px 24px;
+  transition: all var(--transition-cubic);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
 }
 
 .btn-modern::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left var(--transition-slow);
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left var(--transition-slow);
 }
 
 .btn-modern:hover::before {
-    left: 100%;
+  left: 100%;
 }
 
 .btn-primary-modern {
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
-    color: white;
-    box-shadow: var(--shadow);
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: white;
+  box-shadow: var(--shadow);
 }
 
 .btn-primary-modern:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
 }
 
 .btn-outline-modern {
-    background: transparent;
-    border: 2px solid var(--primary);
-    color: var(--primary);
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
 }
 
 .btn-outline-modern:hover {
-    background: var(--primary);
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-glow);
+  background: var(--primary);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
 }
 
 .btn-sm {
-    padding: 8px 16px;
-    font-size: 0.875rem;
+  padding: 8px 16px;
+  font-size: 0.875rem;
 }
 
 /* Theme Toggle */
 .theme-toggle {
-    background: var(--bg-tertiary);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-full);
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all var(--transition-normal);
-    cursor: pointer;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-normal);
+  cursor: pointer;
 }
 
 .theme-toggle:hover {
-    background: var(--primary);
-    color: white;
-    transform: scale(1.1);
+  background: var(--primary);
+  color: white;
+  transform: scale(1.1);
 }
 
 /* Cards */
 .card-glass {
-    background: var(--bg-glass);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-2xl);
-    box-shadow: var(--shadow-lg);
-    transition: all var(--transition-normal);
-    padding: var(--spacing-xl);
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-lg);
+  transition: all var(--transition-normal);
+  padding: var(--spacing-xl);
 }
 
 .card-glass:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-glow);
-    border-color: var(--border-hover);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-glow);
+  border-color: var(--border-hover);
 }
 
 /* Formularios */
 .form-group {
-    margin-bottom: var(--spacing-lg);
-    position: relative;
+  margin-bottom: var(--spacing-lg);
+  position: relative;
 }
 
 .form-control-modern {
-    background: var(--bg-tertiary);
-    border: 2px solid var(--border);
-    border-radius: var(--radius-xl);
-    padding: 12px 16px;
-    color: var(--text-primary);
-    font-size: 0.95rem;
-    transition: all var(--transition-normal);
-    width: 100%;
+  background: var(--bg-tertiary);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 12px 16px;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  transition: all var(--transition-normal);
+  width: 100%;
 }
 
 .form-control-modern:focus {
-    outline: none;
-    border-color: var(--primary);
-    background: var(--bg-secondary);
-    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  outline: none;
+  border-color: var(--primary);
+  background: var(--bg-secondary);
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
 }
 
 .form-label-modern {
-    display: block;
-    margin-bottom: var(--spacing-sm);
-    color: var(--text-secondary);
-    font-weight: 500;
-    font-size: 0.9rem;
+  display: block;
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.9rem;
 }
 
 /* Tablas */
 .table-modern {
-    background: var(--bg-card);
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-    box-shadow: var(--shadow);
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow);
 }
 
 .table-modern thead {
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
-    color: white;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: white;
 }
 
 .table-modern tbody tr {
-    border-bottom: 1px solid var(--border);
-    transition: background-color var(--transition-normal);
+  border-bottom: 1px solid var(--border);
+  transition: background-color var(--transition-normal);
 }
 
 .table-modern tbody tr:hover {
-    background-color: var(--bg-tertiary);
+  background-color: var(--bg-tertiary);
+}
+
+.table-modern th,
+.table-modern td {
+  color: var(--text-primary);
+  padding: var(--spacing-md);
+  border: none;
+}
+
+.table-modern tbody tr {
+  background-color: transparent;
+}
+
+.table-modern tbody tr:nth-child(even) {
+  background-color: var(--bg-secondary);
 }
 
 /* Progress bars */
 .progress {
-    height: 8px;
-    background: var(--bg-tertiary);
-    border-radius: var(--radius-full);
-    overflow: hidden;
+  height: 8px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
 }
 
 .progress-bar {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    transition: width 2s ease-out;
-    animation: progressFill 2s ease-out;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  transition: width 2s ease-out;
+  animation: progressFill 2s ease-out;
 }
 
 @keyframes progressFill {
-    from { width: 0; }
+  from {
+    width: 0;
+  }
 }
