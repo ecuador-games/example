@@ -1,0 +1,20 @@
+/* === MAIN CSS FILE === */
+/* Import all CSS modules in the correct order */
+
+/* 1. Variables first */
+@import url('./variables.css');
+
+/* 2. Base styles */
+@import url('./base.css');
+
+/* 3. Layout */
+@import url('./layout.css');
+
+/* 4. Components */
+@import url('./components.css');
+
+/* 5. Animations */
+@import url('./animations.css');
+
+/* 6. Utilities last */
+@import url('./utilities.css');

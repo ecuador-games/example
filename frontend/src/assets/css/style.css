@@ -1,3 +1,70 @@
+/* === PALETA DLS25 === */
+:root {
+    /* Tema Oscuro (DLS25) */
+    --primary: #E53935;
+    --primary-light: #FFB300;
+    --primary-dark: #B71C1C;
+    --secondary: #FFF176;
+    --accent: #FFB300;
+    --success: #FFF176;
+    --danger: #E53935;
+    --warning: #FFB300;
+
+    /* Colores de superficie */
+    --bg-primary: #181818;
+    --bg-secondary: #333333;
+    --bg-tertiary: #E53935;
+    --bg-card: rgba(51, 51, 51, 0.8);
+    --bg-glass: rgba(51, 51, 51, 0.6);
+
+    /* Texto */
+    --text-primary: #FFFFFF;
+    --text-secondary: #FFF176;
+    --text-muted: #FFB300;
+
+    /* Bordes */
+    --border: rgba(229, 57, 53, 0.2);
+    --border-hover: rgba(229, 57, 53, 0.3);
+
+    /* Sombras */
+    --shadow-sm: 0 1px 2px 0 rgba(229, 57, 53, 0.05);
+    --shadow: 0 4px 6px -1px rgba(229, 57, 53, 0.1), 0 2px 4px -1px rgba(229, 57, 53, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(229, 57, 53, 0.1), 0 4px 6px -2px rgba(229, 57, 53, 0.05);
+    --shadow-glow: 0 0 20px rgba(255, 179, 0, 0.3);
+}
+
+[data-theme="light"] {
+    --primary: #E53935;
+    --primary-light: #FFB300;
+    --primary-dark: #B71C1C;
+    --secondary: #FFF176;
+    --accent: #FFB300;
+    --success: #FFF176;
+    --danger: #E53935;
+    --warning: #FFB300;
+
+    /* Colores de superficie */
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #FFF176;
+    --bg-tertiary: #FFB300;
+    --bg-card: rgba(255, 241, 118, 0.8);
+    --bg-glass: rgba(255, 241, 118, 0.6);
+
+    /* Texto */
+    --text-primary: #181818;
+    --text-secondary: #E53935;
+    --text-muted: #FFB300;
+
+    /* Bordes */
+    --border: rgba(229, 57, 53, 0.2);
+    --border-hover: rgba(229, 57, 53, 0.3);
+
+    /* Sombras */
+    --shadow-sm: 0 1px 2px 0 rgba(229, 57, 53, 0.05);
+    --shadow: 0 4px 6px -1px rgba(229, 57, 53, 0.1), 0 2px 4px -1px rgba(229, 57, 53, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(229, 57, 53, 0.1), 0 4px 6px -2px rgba(229, 57, 53, 0.05);
+    --shadow-glow: 0 0 20px rgba(255, 179, 0, 0.3);
+}
 
 /* Bootstrap color adaptation using DLS25 Palette */
 :root {
@@ -9,11 +76,11 @@
     --bs-info: var(--dls25-yellow);
     --bs-dark: var(--dls25-black);
     --bs-light: var(--dls25-white);
-    --dls25-red: #F23B3B;
-    --dls25-orange: #F2A93B;
-    --dls25-yellow: #F2E23B;
+    --dls25-red: #E53935;
+    --dls25-orange: #FFB300;
+    --dls25-yellow: #FFF176;
     --dls25-black: #181818;
-    --dls25-dark-gray: #232323;
+    --dls25-dark-gray: #333333;
     --dls25-white: #FFFFFF;
 }
 
