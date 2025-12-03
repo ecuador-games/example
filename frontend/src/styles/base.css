@@ -1,90 +1,112 @@
 /* === ESTILOS BASE === */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
-    scroll-behavior: smooth;
-    font-size: 16px;
+  scroll-behavior: smooth;
+  font-size: 16px;
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-    color: var(--text-primary);
-    line-height: 1.6;
-    transition: all var(--transition-cubic);
-    min-height: 100vh;
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  color: var(--text-primary);
+  line-height: 1.6;
+  transition: all var(--transition-cubic);
+  min-height: 100vh;
 }
 
 /* Tipografía */
-h1, h2, h3, h4, h5, h6 {
-    font-weight: 600;
-    line-height: 1.2;
-    margin-bottom: var(--spacing-md);
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: var(--spacing-md);
 }
 
-h1 { font-size: 2.5rem; }
-h2 { font-size: 2rem; }
-h3 { font-size: 1.75rem; }
-h4 { font-size: 1.5rem; }
-h5 { font-size: 1.25rem; }
-h6 { font-size: 1.125rem; }
+h1 {
+  font-size: 2.5rem;
+}
+h2 {
+  font-size: 2rem;
+}
+h3 {
+  font-size: 1.75rem;
+}
+h4 {
+  font-size: 1.5rem;
+}
+h5 {
+  font-size: 1.25rem;
+}
+h6 {
+  font-size: 1.125rem;
+}
 
 p {
-    margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
 }
 
 a {
-    color: var(--primary);
-    text-decoration: none;
-    transition: color var(--transition-normal);
+  color: var(--primary);
+  text-decoration: none;
+  transition: color var(--transition-normal);
 }
 
 a:hover {
-    color: var(--primary-light);
+  color: var(--primary-light);
 }
 
 /* Selección de texto */
 ::selection {
-    background: color-mix(in srgb, var(--primary) 30%, transparent);
-    color: var(--text-primary);
+  background: color-mix(in srgb, var(--primary) 30%, transparent);
+  color: var(--text-primary);
 }
 
 /* Scrollbar personalizada */
 ::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--bg-secondary);
+  background: var(--bg-secondary);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--primary);
-    border-radius: var(--radius-full);
+  background: var(--primary);
+  border-radius: var(--radius-full);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--primary-light);
+  background: var(--primary-light);
 }
 
 /* Focus visible para accesibilidad */
 :focus-visible {
-    outline: 2px solid var(--primary);
-    outline-offset: 2px;
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
 /* Reducir animaciones si el usuario lo prefiere */
 @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

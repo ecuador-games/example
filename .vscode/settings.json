@@ -35,7 +35,6 @@
   },
   "dotnet.defaultSolution": "Backend/example.API/example.API.sln",
   "omnisharp.enableEditorConfigSupport": true,
-  "omnisharp.enableImportCompletion": true,
   "omnisharp.enableRoslynAnalyzers": true,
   "typescript.preferences.importModuleSpecifier": "relative",
   "javascript.preferences.importModuleSpecifier": "relative",
@@ -81,5 +80,6 @@
     "christian-kohler.path-intellisense",
     "ms-vscode.powershell",
     "ms-vscode.vscode-typescript-next"
-  ]
+  ],
+  "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true
 }
