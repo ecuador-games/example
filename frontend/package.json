@@ -34,7 +34,8 @@
     "vite": "^5.0.0"
   },
   "dependencies": {
-    "bootstrap": "^5.3.3"
+    "bootstrap": "^5.3.3",
+    "toastr": "^2.1.4"
   },
   "browserslist": [
     "> 1%",
